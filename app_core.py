@@ -57,7 +57,7 @@ def pixabay_isch(event):
             'Accept-Language': 'en-US,en;q=0.8',
             'Connection': 'keep-alive'}  
 
-        req = urllib.request.Request(url, headers = headers)
+        req = urllib.request.Request(url, headers = hdr)
         conn = urllib.request.urlopen(req)
         
         print('fetch page finish')
