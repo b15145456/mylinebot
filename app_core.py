@@ -48,7 +48,7 @@ def callback():
 def pixabay_isch(event):
     
     try:
-        我想找圖 = {'q': 'dog'}
+        我想找圖 = {'q': event.message.text}
         url = f"https://imgur.com/search?{urllib.parse.urlencode(我想找圖)}/"
         hdr = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',
             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
