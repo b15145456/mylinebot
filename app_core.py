@@ -48,24 +48,30 @@ def callback():
 def pixabay_isch(event):
     
     try:
-        url = f"https://pixabay.com/images/search/{urllib.parse.urlencode({'q':event.message.text})[2:]}/"
-        headers = {'User-Agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.132 Safari/537.36'}
-        
+        我想找圖 = {'tbm': 'isch', 'q': '邦幫忙'}
+        url = f"https://www.google.com/search?{urllib.parse.urlencode(我想找圖)}/"
+        hdr = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
+            'Accept-Encoding': 'none',
+            'Accept-Language': 'en-US,en;q=0.8',
+            'Connection': 'keep-alive'}  
+
         req = urllib.request.Request(url, headers = headers)
         conn = urllib.request.urlopen(req)
         
         print('fetch page finish')
         
-        pattern = 'img srcset="\S*\s\w*,'
+        pattern = 'img data-src="\S*"'
         img_list = []
-        
+
         for match in re.finditer(pattern, str(conn.read())):
-            img_list.append(match.group()[12:-3])
-            
+            img_list.append(match.group()[14:-1])
+
         random_img_url = img_list[random.randint(0, len(img_list)+1)]
         print('fetch img url finish')
         print(random_img_url)
-        
+
         line_bot_api.reply_message(
             event.reply_token,
             ImageSendMessage(
