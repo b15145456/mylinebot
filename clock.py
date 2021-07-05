@@ -12,7 +12,7 @@ def scheduled_job():
     # 利用datetime查詢時間
     print(f'{datetime.datetime.now().ctime()}')
     print('========== APScheduler CRON =========')
-
+    #try
     url = "https://clinic-bot-v1.herokuapp.com"
     conn = urllib.request.urlopen(url)
         
