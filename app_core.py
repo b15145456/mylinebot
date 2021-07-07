@@ -1,12 +1,12 @@
 from __future__ import unicode_literals
 import os
-
+import json
 # 增加了 render_template
 from flask import Flask, request, abort, render_template
 
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
-from linebot.models import MessageEvent, TextMessage, TextSendMessage, ImageSendMessage
+from linebot.models import MessageEvent, TextMessage, TextSendMessage, ImageSendMessage, FlexSendMessage
 
 import configparser
 
@@ -64,6 +64,16 @@ def pixabay_isch(event):
                 event.reply_token,
                 TextSendMessage(text='失敗了')
             )
+    elif '選單' in event.message.text:
+        f = open('./flex_message/menu.json',)
+        data = json.load(f)
+        line_bot_api.reply_message(
+                    event.reply_token,
+                    FlexSendMessage(
+                        alt_text = 'index',
+                        contents = data
+                    )
+                )
     else:
         try:
             我想找圖 = {'q': event.message.text}
