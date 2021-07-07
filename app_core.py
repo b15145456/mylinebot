@@ -51,12 +51,8 @@ def callback():
 def pixabay_isch(event):
     if '草泥馬訓練紀錄' in event.message.text:
         try:
-            record_list = prepare_record(event.message.text)
-            print('record_list')
-            print(record_list)
-            reply = line_insert_record(record_list)
-            print('reply')
-            print(reply)
+            record_list = prepare_record.prepare_record0(event.message.text)
+            reply = line_insert_record.line_insert_record(record_list)
 
             line_bot_api.reply_message(
                 event.reply_token,

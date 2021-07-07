@@ -2,6 +2,7 @@ import os
 import psycopg2
 
 DATABASE_URL = os.environ['DATABASE_URL']
+# DATABASE_URL = os.popen('heroku config:get DATABASE_URL -a clinic-bot-v1').read()[:-1]
 
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 cursor = conn.cursor()
