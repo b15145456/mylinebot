@@ -11,25 +11,27 @@
     </div>
 
     <!-- 將所有草泥馬的訓練紀錄列在下面 -->
-    {% for record in html_records %}
-    <div class="row">
-    <div class="col">
-      <p>{{ record[0] }}<p>
-    </div>
-    <div class="col">
-      <p>{{ record[1] }}<p>
-    </div>
-    <div class="col">
-      <p>{{ record[2] }}<p>
-    </div>
-    <div class="col">
-      <p>{{ record[3] }}<p>
-    </div>
-    <div class="col">
-      <p>{{ record[4] }}<p>
-    </div>
-    </div>
-    {% endfor %}
+    <!-- 宣告一個巨集 -->
+    {% macro easy_row(data, tag) -%}
+        {% for record in data %}
+        <div class="row">
+            {% for item in record %}
+            <div class="col">
+            <{{ tag }}>{{ item }}</{{ tag }}>
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    {%- endmacro %}
+
+    <!-- 宣告一些等等會用來創造欄位說明的變數 -->
+    {% set col_names = (("record_no", "alpaca_name", "training", "duration", "date"),) %}
+
+    <!-- 用巨集快速創造欄位名稱 -->
+    {{ easy_row(col_names, "h2") }}
+
+    <!-- 將所有草泥馬的訓練紀錄列在下面 -->
+    {{ easy_row(html_records, "p") }}
     <!-- 將所有草泥馬的訓練紀錄列在上面 -->
 
   </div>
