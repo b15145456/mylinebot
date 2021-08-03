@@ -29,6 +29,11 @@ handler = WebhookHandler(config.get('line-bot', 'channel_secret'))
 @app.route("/")
 def home():
     return render_template("home.html")
+
+@app.route("/from_start")
+def from_start():
+    return render_template("from_start.html")
+
 # 增加的這段放在上面
 
 # 接收 LINE 的資訊
