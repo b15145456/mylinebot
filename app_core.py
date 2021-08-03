@@ -14,7 +14,7 @@ import urllib
 import re
 import random
 # try git on vs code   
-from custom_models import prepare_record, line_insert_record
+from custom_models import prepare_record, line_insert_record, show_records
 
 app = Flask(__name__)
 
@@ -32,6 +32,11 @@ def home():
 @app.route("/from_start")
 def from_start():
     return render_template("from_start.html")
+
+@app.route("/show_records")
+def show():
+    python_records = show_records.web_select_overall()
+    return render_template("show_records.html", html_records=python_records)
 
 # 增加的這段放在上面
 
