@@ -5,8 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>賴田捕手</title>
   <link rel="icon" href="{{ url_for('static', filename='img/test_ico.ico') }}">
-</head>
+  <link rel="style" href="{{ url_for('static', filename='css/bootstrap.min.css') }}"></head>
 <body>
+  <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+  <nav class="navbar navbar-expand-sm bg-light navbar-light">
+
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link 1</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link 2</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link 3</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+          Dropdown link
+        </a>
+        <div class="dropdown-menu">
+          <a class="dropdown-item" href="#">Dropdown 1</a>
+          <a class="dropdown-item" href="#">Dropdown 2</a>
+          <a class="dropdown-item" href="#">Dropdown 3</a>
+        </div>
+      </li>
+    </ul>
+  
+  </nav>
   <h1>賴田捕手第 20 天</h1>
   <p>全身都是肌肉沒半點腦子。反正，那就是鄭尼那晚照顧的草泥馬。我完全無法了解，我發誓我沒辦法。</p>
 </body>
