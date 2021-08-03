@@ -14,8 +14,7 @@ import urllib
 import re
 import random
 # try git on vs code   
-import prepare_record
-import line_insert_record
+from custom_models import prepare_record, line_insert_record
 
 app = Flask(__name__)
 
