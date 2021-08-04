@@ -45,14 +45,14 @@
  })
   function checkInt(input) { 
 　　var re = /^[0-9] .?[0-9]*/; //判斷字串是否為數字//判斷正整數/[1−9] [0−9]∗]∗/ 
-　　if (!re.test(input)) { 
+　　if (re.test(input)) { 
         return false
 　　}else{
         return true
     }
   }
   function resetNum(){
-    $("#edit_now_num").val() = 0
+    $("#edit_now_num").val() = "0"
     document.form.submit();
   }
 </script>
