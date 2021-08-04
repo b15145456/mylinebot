@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="row">
+  <div class="col">
+    <h1>
+        department {{ html_records[0] }}
+    </h1>
+    <h1>
+        now is {{ html_records[1] }}
+    </h1>
+    <form method="POST" action="{{url_for('submit')}}">
+      <div class="form-row">
+      <div class="col-12 mt-3">
+        <input type="text" class="form-control" name="change_num" placeholder="clinic number">
+      </div>
+      <div class="col-12 mt-3 pt-3">
+        <button type="submit" class="btn btn-primary">Submit
+        </button>
+      </div>
+      </div>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

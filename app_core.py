@@ -14,7 +14,7 @@ import urllib
 import re
 import random
 # try git on vs code   
-from custom_models import prepare_record, line_insert_record, show_records
+from custom_models import prepare_record, line_insert_record, show_records, utils
 
 app = Flask(__name__)
 
@@ -38,6 +38,32 @@ def show():
     python_records = show_records.web_select_overall()
     return render_template("show_records.html", html_records=python_records)
 
+@app.route("/submit", methods=['POST'])
+def submit():
+    firstname = request.values['firstname']
+    lastname = request.values['lastname']
+    return render_template('submit.html',**locals())
+
+# @app.route("/changeNumTo<n>")    
+# def webhchangeNum(n):
+#     if n.isnumeric():
+#         num = changeNum(int(n))
+#         data = [0,num]
+#         utils.edit_number(data)
+#     return render_template('clinic_number.html')
+
+@app.route("/submit", methods=['POST'])
+def submit():
+    new_num = request.values['change_num']
+    data = [0,new_num]
+    utils.edit_number(data)
+    return render_template('clinic_number.html')
+
+@app.route("/clinic_number")    
+def show_clinic_num():
+    data = utils.get_number()
+    return render_template("clinic_number.html", html_records = data)
+
 # 增加的這段放在上面
 
 # 接收 LINE 的資訊
@@ -58,7 +84,22 @@ def callback():
 # 請 pixabay 幫我們找圖
 @handler.add(MessageEvent, message=TextMessage)
 def pixabay_isch(event):
-    if '草泥馬訓練紀錄' in event.message.text:
+    if 'change' in event.message.text:  # 0 change to 5
+        try:
+            data_list = event.message.text.split(" ")   # data_list = [0, change, to, 5]
+            reply = utils.edit_number(data_list)
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text=reply)
+            )
+            
+        except:
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text='失敗了')
+            )
+
+    elif '草泥馬訓練紀錄' in event.message.text:
         try:
             record_list = prepare_record.prepare_record(event.message.text)
             reply = line_insert_record.line_insert_record(record_list)
