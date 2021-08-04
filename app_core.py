@@ -57,11 +57,13 @@ def submit():
     new_num = request.values['change_num']
     data = [0,new_num]
     utils.edit_number(data)
-    return render_template('clinic_number.html')
+    data = utils.get_number()
+    return render_template('clinic_number.html', html_records = data)
 
 @app.route("/clinic_number")    
 def show_clinic_num():
-    data = utils.get_number()
+    # data = utils.get_number()
+    data = ["0","80"]
     return render_template("clinic_number.html", html_records = data)
 
 # 增加的這段放在上面
