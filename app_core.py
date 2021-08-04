@@ -40,9 +40,8 @@ def home():
 
 @app.route("/submit", methods=['POST'])
 def submit():
-    change_num = request.values['change_num']
+    change_num = int(request.values['change_num'])
     utils.edit_number(change_num)
-
     dataFromDB = utils.get_number()
     data = dataFromDB[0]
     return render_template('clinic_page.html', html_records = data)
