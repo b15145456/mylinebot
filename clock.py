@@ -1,7 +1,7 @@
 from apscheduler.schedulers.blocking import BlockingScheduler
 import urllib
 import datetime
-
+import urllib.request
 sched = BlockingScheduler()
 
 @sched.scheduled_job('cron', day_of_week='mon-fri', minute='*/20')
