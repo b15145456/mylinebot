@@ -7,9 +7,9 @@ def edit_number(change_num):
 
     conn = psycopg2.connect(DATABASE_URL, sslmode='require')
     cursor = conn.cursor()
-    data = [["0",str(change_num)]]
+    data = str(change_num)
     table_columns = '(departments_id, number, edit_time)'
-    postgres_insert_query = f"""UPDATE clinic_number {table_columns} VALUES (%s,%s,CURRENT_TIMESTAMP)"""
+    postgres_insert_query = f"""UPDATE clinic_number SET departments_id=0, number={data}, edit_time=CURRENT_TIMESTAMP;"""
 
     cursor.executemany(postgres_insert_query, data)
     conn.commit()
