@@ -40,17 +40,20 @@ def home():
 
 @app.route("/submit", methods=['POST'])
 def submit():
-    firstname = request.values['firstname']
-    lastname = request.values['lastname']
-    return render_template('submit.html',**locals())
+    change_num = request.values['change_num']
+    utils.edit_number(change_num)
+    
+    dataFromDB = utils.get_number()
+    data = dataFromDB[0]
+    return render_template('clinic_page.html', html_records = data)
 
-# @app.route("/changeNumTo<n>")    
-# def webhchangeNum(n):
-#     if n.isnumeric():
-#         num = changeNum(int(n))
-#         data = [0,num]
-#         utils.edit_number(data)
-#     return render_template('clinic_page.html.html')
+
+@app.route("/changeNumTo<n>")    
+def webhchangeNum(n):
+    if n.isnumeric():
+        data = [0,n]
+        utils.edit_number(data)
+    return render_template('clinic_page.html')
 
 # @app.route("/submit", methods=['POST'])
 # def submit():
