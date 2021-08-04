@@ -42,18 +42,18 @@ def home():
 def submit():
     change_num = request.values['change_num']
     utils.edit_number(change_num)
-    
+
     dataFromDB = utils.get_number()
     data = dataFromDB[0]
     return render_template('clinic_page.html', html_records = data)
 
 
-@app.route("/changeNumTo<n>")    
-def webhchangeNum(n):
-    if n.isnumeric():
-        data = [0,n]
-        utils.edit_number(data)
-    return render_template('clinic_page.html')
+# @app.route("/changeNumTo/<n>")    
+# def webhchangeNum(n):
+#     if n.isnumeric():
+#         data = ["0",str(n)]
+#         utils.edit_number(data)
+#     return render_template('clinic_page.html', html_records = data)
 
 # @app.route("/submit", methods=['POST'])
 # def submit():
