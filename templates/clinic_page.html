@@ -35,7 +35,7 @@
         if( input_data=="" ){
             alert("此為必填");
             eval($("#edit_now_num").focus());       
-        }else if( checkInt( input_data ) ){
+        }else if( !isNaN(Number(input_data)) ){
           document.form.submit();
         }else{
           alert("請輸入數字");
@@ -43,14 +43,14 @@
         }
     })
  })
-  function checkInt(input) {
-    try {
-      input_int = parseInt(input, 10)
-      return true
-    } catch (e) {
-      return false
-    }
-  }
+  // function checkInt(input) {
+  //   try {
+  //     input_int = parseInt(input, 10)
+  //     return true
+  //   } catch (e) {
+  //     return false
+  //   }
+  // }
   function resetNum(){
     document.getElementById("edit_now_num").value = "0";
     document.form.submit();
