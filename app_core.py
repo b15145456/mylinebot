@@ -38,11 +38,11 @@ def home():
 #     python_records = show_records.web_select_overall()
 #     return render_template("show_records.html", html_records=python_records)
 
-# @app.route("/submit", methods=['POST'])
-# def submit():
-#     firstname = request.values['firstname']
-#     lastname = request.values['lastname']
-#     return render_template('submit.html',**locals())
+@app.route("/submit", methods=['POST'])
+def submit():
+    firstname = request.values['firstname']
+    lastname = request.values['lastname']
+    return render_template('submit.html',**locals())
 
 # @app.route("/changeNumTo<n>")    
 # def webhchangeNum(n):
