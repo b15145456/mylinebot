@@ -36,10 +36,10 @@
             alert("此為必填");
             eval($("#edit_now_num").focus());       
         }else if( checkInt( input_data ) ){
-            alert("請輸入數字");
-            eval("document.form['change_num'].focus()");     
+          document.form.submit();
         }else{
-            document.form.submit();
+          alert("請輸入數字");
+          eval("document.form['change_num'].focus()"); 
         }
     })
  })
