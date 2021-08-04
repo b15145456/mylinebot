@@ -62,8 +62,8 @@ def submit():
 
 @app.route("/clinic_number")    
 def show_clinic_num():
-    # data = utils.get_number()
-    data = ["0","80"]
+    data = utils.get_number()
+    data = ["0",data]
     return render_template("clinic_page.html", html_records = data)
 
 # 增加的這段放在上面
