@@ -10,15 +10,15 @@
         department {{ html_records[0] }}
     </h1>
     <h1>
-        now is {{ html_records[1] }}
+        now is {{ html_records[2] }}
     </h1>
-    <form method="POST" action="{{url_for('submit')}}">
+    <form name="form" id="form" method="POST" action="{{url_for('submit')}}">
       <div class="form-row">
       <div class="col-12 mt-3">
-        <input type="text" class="form-control" name="change_num" placeholder="clinic number">
+        <input id="edit_now_num" type="text" class="form-control" name="change_num" placeholder="clinic number">
       </div>
       <div class="col-12 mt-3 pt-3">
-        <button type="submit" class="btn btn-primary">Submit
+        <button id="submit_btn" onclick="return false" type="submit" class="btn btn-primary">Submit
         </button>
       </div>
       </div>
@@ -26,4 +26,28 @@
     </form>
   </div>
 </div>
+<script>
+  $(document).ready(function(){
+    $("#submit_btn").click(function(){
+      input_data = $("#edit_now_num").val()
+        if( input_data=="" ){
+            alert("此為必填");
+            eval($("#edit_now_num").focus());       
+        }else if( checkInt( int(input_data) ) ){
+            alert("請輸入數字");
+            eval("document.form['change_num'].focus()");     
+        }else{
+            document.form.submit();
+        }
+    })
+ })
+  function checkInt(input) { 
+　　var re = /^[0-9] .?[0-9]*/; //判斷字串是否為數字//判斷正整數/[1−9] [0−9]∗]∗/ 
+　　if (!re.test(nubmer)) { 
+        return false
+　　}else{
+        return true
+    }
+  }
+</script>
 {% endblock %}
