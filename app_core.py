@@ -29,20 +29,20 @@ handler = WebhookHandler(config.get('line-bot', 'channel_secret'))
 def home():
     return render_template("home.html")
 
-@app.route("/from_start")
-def from_start():
-    return render_template("from_start.html")
+# @app.route("/from_start")
+# def from_start():
+#     return render_template("from_start.html")
 
-@app.route("/show_records")
-def show():
-    python_records = show_records.web_select_overall()
-    return render_template("show_records.html", html_records=python_records)
+# @app.route("/show_records")
+# def show():
+#     python_records = show_records.web_select_overall()
+#     return render_template("show_records.html", html_records=python_records)
 
-@app.route("/submit", methods=['POST'])
-def submit():
-    firstname = request.values['firstname']
-    lastname = request.values['lastname']
-    return render_template('submit.html',**locals())
+# @app.route("/submit", methods=['POST'])
+# def submit():
+#     firstname = request.values['firstname']
+#     lastname = request.values['lastname']
+#     return render_template('submit.html',**locals())
 
 # @app.route("/changeNumTo<n>")    
 # def webhchangeNum(n):
@@ -50,21 +50,21 @@ def submit():
 #         num = changeNum(int(n))
 #         data = [0,num]
 #         utils.edit_number(data)
-#     return render_template('clinic_number.html')
+#     return render_template('clinic_page.html.html')
 
-@app.route("/submit", methods=['POST'])
-def submit():
-    new_num = request.values['change_num']
-    data = [0,new_num]
-    utils.edit_number(data)
-    data = utils.get_number()
-    return render_template('clinic_number.html', html_records = data)
+# @app.route("/submit", methods=['POST'])
+# def submit():
+#     new_num = request.values['change_num']
+#     data = [0,new_num]
+#     utils.edit_number(data)
+#     data = utils.get_number()
+#     return render_template('clinic_page.html', html_records = data)
 
 @app.route("/clinic_number")    
 def show_clinic_num():
     # data = utils.get_number()
     data = ["0","80"]
-    return render_template("clinic_number.html", html_records = data)
+    return render_template("clinic_page.html", html_records = data)
 
 # 增加的這段放在上面
 
