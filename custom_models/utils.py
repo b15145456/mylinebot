@@ -23,13 +23,13 @@ def edit_number(record_list):
     
     return message
 
-def get_number(record_list):
+def get_number():
     DATABASE_URL = os.environ['DATABASE_URL']
     # DATABASE_URL = os.popen('heroku config:get DATABASE_URL -a clinic-bot-v1').read()[:-1]
 
     conn = psycopg2.connect(DATABASE_URL, sslmode='require')
     cursor = conn.cursor()
-    
+
     postgres_select_query = f"""SELECT * FROM clinic_number;"""
     
     cursor.execute(postgres_select_query)
