@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 import os
 import json
 # 增加了 render_template
-from flask import Flask, request, abort, render_template
+from flask import Flask, request, abort, render_template, redirect
 
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
@@ -50,7 +50,7 @@ def submit():
     nowNumFromDB = utils.get_number()
     tokensListFromDB = utils.get_tokenList()
     nowNum = nowNumFromDB[0]
-    return render_template('clinic_page.html', now_num_records = nowNum, token_list = tokensListFromDB)
+    return redirect("/clinic_number")
 
 
 # @app.route("/changeNumTo/<n>")    
