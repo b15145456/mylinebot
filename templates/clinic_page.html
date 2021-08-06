@@ -13,7 +13,7 @@
         department {{ now_num_records[0] }}
     </h1>
     <h1>
-        now is {{ now_num_records[2] }}
+        now is <div id="now_num">{{ now_num_records[2] }}</div>
     </h1>
     <form name="form" id="form" method="POST" action="{{url_for('submit')}}">
       <div class="form-row">
@@ -100,7 +100,7 @@
     document.form.submit();
   }
   function plusOne(){
-    document.getElementById("edit_now_num").value += 1;
+    document.getElementById("edit_now_num").value = str( int(document.getElementById("now_num").value)+1 );
     document.form.submit();
   }
 </script>
