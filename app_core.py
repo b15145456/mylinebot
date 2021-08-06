@@ -28,20 +28,12 @@ handler = WebhookHandler(config.get('line-bot', 'channel_secret'))
 def home():
     return render_template("home.html")
 
-socketio = SocketIO(app)
+# socketio = SocketIO(app)
 
-@socketio.on('connect_event')
-def connected_msg(msg):
-    emit('server_response', {'data': msg['data']})
+# @socketio.on('connect_event')
+# def connected_msg(msg):
+#     emit('server_response', {'data': msg['data']})
 
-# @app.route("/from_start")
-# def from_start():
-#     return render_template("from_start.html")
-
-# @app.route("/show_records")
-# def show():
-#     python_records = show_records.web_select_overall()
-#     return render_template("show_records.html", html_records=python_records)
 
 @app.route("/submit", methods=['POST'])
 def submit():
@@ -52,21 +44,6 @@ def submit():
     nowNum = nowNumFromDB[0]
     return redirect("/clinic_number")
 
-
-# @app.route("/changeNumTo/<n>")    
-# def webhchangeNum(n):
-#     if n.isnumeric():
-#         data = ["0",str(n)]
-#         utils.edit_number(data)
-#     return render_template('clinic_page.html', html_records = data)
-
-# @app.route("/submit", methods=['POST'])
-# def submit():
-#     new_num = request.values['change_num']
-#     data = [0,new_num]
-#     utils.edit_number(data)
-#     data = utils.get_number()
-#     return render_template('clinic_page.html', html_records = data)
 
 @app.route("/clinic_number")    
 def show_clinic_num():
@@ -91,23 +68,6 @@ def callback():
         abort(400)
 
     return 'OK'
-
-""" Json format from line
-{
-  "message": {
-    "id": "14523548164652",
-    "text": "token",
-    "type": "text"
-  },
-  "replyToken": "ade42d67c8644e409b83fce165687b46",     replyToken -> reply_token
-  "source": {
-    "type": "user",
-    "userId": "Uc20f5abc2ef473849e0958ba31a42044"       userId -> user_id
-  },                
-  "timestamp": 1628220861293,
-  "type": "message"
-
-}"""
 
 # 請 pixabay 幫我們找圖
 @handler.add(MessageEvent, message=TextMessage)
@@ -213,4 +173,4 @@ def pixabay_isch(event):
             pass
 if __name__ == "__main__":
     app.run()
-    socketio.run(app)
+    # socketio.run(app)
