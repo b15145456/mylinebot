@@ -66,8 +66,10 @@ def submit():
 @app.route("/clinic_number")    
 def show_clinic_num():
     dataFromDB = utils.get_number()
-    data = dataFromDB[0]
-    return render_template("clinic_page.html", html_records = data)
+    nowNumFromDB = utils.get_number()
+    tokensListFromDB = utils.get_tokenList()
+    nowNum = nowNumFromDB[0]
+    return render_template('clinic_page.html', now_num_records = nowNum, token_list = tokensListFromDB)
 
 # 增加的這段放在上面
 
