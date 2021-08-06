@@ -125,7 +125,7 @@ def insert_token(user_record):
     cursor = conn.cursor()
 
     table_columns = '(token_id, number, reply_token_id)'
-    postgres_insert_query = f"""INSERT INTO token_table {table_columns} VALUES (%s,%d, %s)"""
+    postgres_insert_query = f"""INSERT INTO token_table {table_columns} VALUES (%s,%s,%s)"""
     
     # INSERT INTO token_table ("token_id", "number") VALUES ('Uc20f5abc2ef473849e0958ba31a42044', '20')
     
