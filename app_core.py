@@ -14,7 +14,7 @@ import urllib
 import re
 import random
 # try git on vs code   
-from custom_models import prepare_record, line_insert_record, show_records, utils
+from custom_models import utils
 
 app = Flask(__name__)
 # LINE 聊天機器人的基本資料
@@ -103,21 +103,6 @@ def pixabay_isch(event):
                 TextSendMessage(text='失敗了')
             )
 
-    elif '草泥馬訓練紀錄' in event.message.text:
-        try:
-            record_list = prepare_record.prepare_record(event.message.text)
-            reply = line_insert_record.line_insert_record(record_list)
-
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text=reply)
-            )
-                
-        except:
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text='失敗了')
-            )
     elif '選單' in event.message.text:
         f = open('./flex_message/menu.json',)
         data = json.load(f)
