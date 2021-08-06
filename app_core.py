@@ -92,12 +92,12 @@ def pixabay_isch(event):
     if 'token' in event.message.text:
         line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text=event.message)
+                TextSendMessage(text=json.loads(event)['message'])
             )
     elif 'change' in event.message.text:  # 0 change to 5
         try:
             data_list = event.message.text.split(" ")   # data_list = [0, change, to, 5]
-            reply = utils.edit_number(data_list)
+            reply = utils.edit_number(data_list[3])
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text=reply)
