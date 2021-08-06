@@ -110,8 +110,11 @@ def exit_token(user_record):
     
     cursor.close()
     conn.close()
-
-    return True
+    if not message:
+        return False
+    else:
+        return True
+    
 
 
 def insert_token(user_record):
@@ -149,6 +152,24 @@ def change_token_data(user_record):
     conn.commit()
 
     message = f"恭喜您！ 成功修改資料"
+
+    cursor.close()
+    conn.close()
+    
+    return message
+
+def del_token_data(user_record):
+    DATABASE_URL = os.environ['DATABASE_URL']
+    # DATABASE_URL = os.popen('heroku config:get DATABASE_URL -a clinic-bot-v1').read()[:-1]
+
+    conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+    cursor = conn.cursor()
+    postgres_insert_query = f"""DELETE FROM token_table WHERE number = '{user_record[1]}';"""
+
+    cursor.execute(postgres_insert_query)
+    conn.commit()
+
+    message = f"恭喜您！ 成功刪除資料"
 
     cursor.close()
     conn.close()
