@@ -100,7 +100,7 @@
     document.form.submit();
   }
   function plusOne(){
-    document.getElementById("edit_now_num").value = str( int(document.getElementById("now_num").textContent)+1 );
+    document.getElementById("edit_now_num").value = (parseInt( document.getElementById("now_num").textContent )+1).toString();
     document.form.submit();
   }
 </script>
