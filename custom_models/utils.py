@@ -169,7 +169,7 @@ def del_token_data(now_num):
     cursor.execute(postgres_insert_query)
     conn.commit()
 
-    message = f"恭喜您！ 成功刪除資料"
+    message = f"恭喜您！成功刪除資料"
 
     cursor.close()
     conn.close()
