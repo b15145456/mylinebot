@@ -42,9 +42,10 @@ def home():
 def submit():
     change_num = int(request.values['change_num'])
     utils.edit_number(change_num)
-    dataFromDB = utils.get_number()
-    data = dataFromDB[0]
-    return render_template('clinic_page.html', html_records = data)
+    nowNumFromDB = utils.get_number()
+    tokensListFromDB = utils.get_tokenList()
+    nowNum = nowNumFromDB[0]
+    return render_template('clinic_page.html', now_num_records = nowNum, token_list = tokensListFromDB)
 
 
 # @app.route("/changeNumTo/<n>")    
@@ -88,7 +89,12 @@ def callback():
 # 請 pixabay 幫我們找圖
 @handler.add(MessageEvent, message=TextMessage)
 def pixabay_isch(event):
-    if 'change' in event.message.text:  # 0 change to 5
+    if 'token' in event.message.text:
+        line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text=event.message)
+            )
+    elif 'change' in event.message.text:  # 0 change to 5
         try:
             data_list = event.message.text.split(" ")   # data_list = [0, change, to, 5]
             reply = utils.edit_number(data_list)
