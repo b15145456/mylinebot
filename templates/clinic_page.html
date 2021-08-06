@@ -25,6 +25,8 @@
         </button>
         <button id="reset_btn" onclick="resetNum()" class="btn btn-danger">Reset
         </button>
+        <button id="plus_btn" onclick="plusOne()" class="btn btn-primary">+1
+        </button>
       </div>
       </div>
       </div>
@@ -49,6 +51,7 @@
   <{{ tag }}>{{ item }}</{{ tag }}>
   </div>
   {% endfor %}
+  <!-- <button id = " " class="btn btn-danger">Delete</button> -->
 </div>
 {% endfor %}
 {%- endmacro %}
@@ -64,6 +67,7 @@
 
 <script>
   $(document).ready(function(){
+
     $("#submit_btn").click(function(){
       input_data = $("#edit_now_num").val()
         if( input_data=="" ){
@@ -77,17 +81,26 @@
  
         }
     })
- })
-  // function checkInt(input) {
-  //   try {
-  //     input_int = parseInt(input, 10)
-  //     return true
-  //   } catch (e) {
-  //     return false
-  //   }
-  // }
+    // var url = document.location.href;
+    // var port = '5000';
+    // var socket = io.connect(url + ':' + port);
+
+    // socket.on('connect', function() {
+    // socket.emit('connect_event', {data: 'connected!'});})
+
+    // socket.on('server_response', function(msg) {
+    // $('#log').append('<br>' + $('<div/>').text('Received #' + ': ' + msg.data).html());});
+    
+    // $('form#emit').submit(function(event) {
+    // socket.emit('client_event', {data: $('#emit_data').val()});
+    // return false;});
+  })
   function resetNum(){
     document.getElementById("edit_now_num").value = "0";
+    document.form.submit();
+  }
+  function resetNum(){
+    document.getElementById("edit_now_num").value += 1;
     document.form.submit();
   }
 </script>
