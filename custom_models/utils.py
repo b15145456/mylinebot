@@ -143,7 +143,7 @@ def change_token_data(user_record):
 
     conn = psycopg2.connect(DATABASE_URL, sslmode='require')
     cursor = conn.cursor()
-    postgres_insert_query = f"""UPDATE token_table SET number={user_record[1]}, reply_token_id={user_record[2]} WHERE token_id = '{user_record[0]}';"""
+    postgres_insert_query = f"""UPDATE token_table SET number='{user_record[1]}', reply_token_id={user_record[2]} WHERE token_id = '{user_record[0]}';"""
 
     cursor.execute(postgres_insert_query)
     conn.commit()
