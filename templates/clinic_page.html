@@ -14,13 +14,16 @@
     </h1>
     <form name="form" id="form" method="POST" action="{{url_for('submit')}}">
       <div class="form-row">
-        <input class="col-3 mt-3 pt-3" id="edit_now_num" type="text" class="form-control" name="change_num" placeholder="clinic number">
+      <div class="col-3 mt-3">
+        <input id="edit_now_num" type="text" class="form-control" name="change_num" placeholder="clinic number">
+
         <button id="submit_btn" onclick="return false" type="submit" class="btn btn-primary">Submit
         </button>
         <button id="reset_btn" onclick="resetNum()" class="btn btn-danger">Reset
         </button>
         <button id="plus_btn" onclick="plusOne()" class="btn btn-primary">+1
         </button>
+      </div>
       </div>
       </div>
     </form>
