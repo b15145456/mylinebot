@@ -7,7 +7,7 @@ from flask import Flask, request, abort, render_template
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage, ImageSendMessage, FlexSendMessage
-
+from flask_socketio import SocketIO, emit
 import configparser
 
 import urllib
@@ -17,7 +17,6 @@ import random
 from custom_models import prepare_record, line_insert_record, show_records, utils
 
 app = Flask(__name__)
-
 # LINE 聊天機器人的基本資料
 config = configparser.ConfigParser()
 config.read('config.ini')
@@ -28,6 +27,12 @@ handler = WebhookHandler(config.get('line-bot', 'channel_secret'))
 @app.route("/")
 def home():
     return render_template("home.html")
+
+socketio = SocketIO(app)
+
+@socketio.on('connect_event')
+def connected_msg(msg):
+    emit('server_response', {'data': msg['data']})
 
 # @app.route("/from_start")
 # def from_start():
@@ -65,7 +70,6 @@ def submit():
 
 @app.route("/clinic_number")    
 def show_clinic_num():
-    dataFromDB = utils.get_number()
     nowNumFromDB = utils.get_number()
     tokensListFromDB = utils.get_tokenList()
     nowNum = nowNumFromDB[0]
@@ -88,13 +92,41 @@ def callback():
 
     return 'OK'
 
+""" Json format from line
+{
+  "message": {
+    "id": "14523548164652",
+    "text": "token",
+    "type": "text"
+  },
+  "replyToken": "ade42d67c8644e409b83fce165687b46",     replyToken -> reply_token
+  "source": {
+    "type": "user",
+    "userId": "Uc20f5abc2ef473849e0958ba31a42044"       userId -> user_id
+  },                
+  "timestamp": 1628220861293,
+  "type": "message"
+
+}"""
+
 # 請 pixabay 幫我們找圖
 @handler.add(MessageEvent, message=TextMessage)
 def pixabay_isch(event):
-    if 'token' in event.message.text:
+    if (event.message.text.isdigit()):
+        insert_data = [event.source.user_id, int(event.message.text), event.reply_token]
+        if utils.exit_token(insert_data):
+            res = utils.change_token_data(insert_data)
+        else:
+            res = utils.insert_token(insert_data)
         line_bot_api.reply_message(
                 event.reply_token,
-                TextSendMessage(text=str(event))
+                TextSendMessage(text = res)
+            )
+        
+    elif 'token' in event.message.text:
+        line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text = str(event))
             )
     elif 'change' in event.message.text:  # 0 change to 5
         try:
@@ -181,3 +213,4 @@ def pixabay_isch(event):
             pass
 if __name__ == "__main__":
     app.run()
+    socketio.run(app)
