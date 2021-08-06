@@ -96,7 +96,7 @@ def exit_token(user_record):
     conn = psycopg2.connect(DATABASE_URL, sslmode='require')
     cursor = conn.cursor()
     
-    postgres_select_query = f"""SELECT * FROM token_table WHERE token_id = {user_record[0]};"""
+    postgres_select_query = f"""SELECT * FROM token_table WHERE token_id = '{user_record[0]}' ;"""
     
     cursor.execute(postgres_select_query)
     
