@@ -124,8 +124,8 @@ def insert_token(user_record):
     conn = psycopg2.connect(DATABASE_URL, sslmode='require')
     cursor = conn.cursor()
 
-    table_columns = '(token_id, number, reply_token_id)'
-    postgres_insert_query = f"""INSERT INTO token_table {table_columns} VALUES (%s,%s,%s)"""
+    table_columns = '(token_id, number)'
+    postgres_insert_query = f"""INSERT INTO token_table {table_columns} VALUES (%s,%s)"""
     
     # INSERT INTO token_table ("token_id", "number") VALUES ('Uc20f5abc2ef473849e0958ba31a42044', '20')
     
@@ -146,7 +146,7 @@ def change_token_data(user_record):
 
     conn = psycopg2.connect(DATABASE_URL, sslmode='require')
     cursor = conn.cursor()
-    postgres_insert_query = f"""UPDATE token_table SET number={user_record[1]}, reply_token_id='{user_record[2]}' WHERE token_id = '{user_record[0]}';"""
+    postgres_insert_query = f"""UPDATE token_table SET number={user_record[1]} WHERE token_id = '{user_record[0]}';"""
 
     cursor.execute(postgres_insert_query)
     conn.commit()
@@ -158,13 +158,13 @@ def change_token_data(user_record):
     
     return message
 
-def del_token_data(user_record):
+def del_token_data(now_num):
     DATABASE_URL = os.environ['DATABASE_URL']
     # DATABASE_URL = os.popen('heroku config:get DATABASE_URL -a clinic-bot-v1').read()[:-1]
 
     conn = psycopg2.connect(DATABASE_URL, sslmode='require')
     cursor = conn.cursor()
-    postgres_insert_query = f"""DELETE FROM token_table WHERE number = '{user_record[1]}';"""
+    postgres_insert_query = f"""DELETE FROM token_table WHERE number = {now_num};"""
 
     cursor.execute(postgres_insert_query)
     conn.commit()

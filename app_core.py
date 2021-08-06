@@ -39,9 +39,7 @@ def home():
 def submit():
     change_num = int(request.values['change_num'])
     utils.edit_number(change_num)
-    nowNumFromDB = utils.get_number()
-    tokensListFromDB = utils.get_tokenList()
-    nowNum = nowNumFromDB[0]
+    utils.del_token_data(change_num)
     return redirect("/clinic_number")
 
 
@@ -73,7 +71,7 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def pixabay_isch(event):
     if (event.message.text.isdigit()):
-        insert_data = [event.source.user_id, int(event.message.text), event.reply_token]
+        insert_data = [event.source.user_id, int(event.message.text)]
         if utils.exit_token(insert_data):
             res = utils.change_token_data(insert_data)
         else:
