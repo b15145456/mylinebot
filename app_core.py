@@ -3,22 +3,31 @@ import os
 import json
 # 增加了 render_template
 <<<<<<< HEAD
+<<<<<<< HEAD
 from flask import Flask, request, abort, render_template
 =======
 from flask import Flask, request, abort, render_template, redirect
 >>>>>>> 48ea54759af8682a81b1a9f715f416b617286703
+=======
+from flask import Flask, request, abort, render_template, redirect
+>>>>>>> master_H
 
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage, ImageSendMessage, FlexSendMessage
 <<<<<<< HEAD
+<<<<<<< HEAD
 
+=======
+from flask_socketio import SocketIO, emit
+>>>>>>> master_H
 import configparser
 
 import urllib
 import re
 import random
 # try git on vs code   
+<<<<<<< HEAD
 from custom_models import prepare_record, line_insert_record, show_records, utils
 =======
 from flask_socketio import SocketIO, emit
@@ -31,6 +40,10 @@ import random
 # try git on vs code   
 from custom_models import utils
 
+=======
+from custom_models import utils
+
+>>>>>>> master_H
 app = Flask(__name__)
 # LINE 聊天機器人的基本資料
 config = configparser.ConfigParser()
@@ -44,42 +57,30 @@ def home():
     return render_template("home.html")
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 # @app.route("/from_start")
 # def from_start():
 #     return render_template("from_start.html")
+=======
+# socketio = SocketIO(app)
 
-# @app.route("/show_records")
-# def show():
-#     python_records = show_records.web_select_overall()
-#     return render_template("show_records.html", html_records=python_records)
+# @socketio.on('connect_event')
+# def connected_msg(msg):
+#     emit('server_response', {'data': msg['data']})
+>>>>>>> master_H
+
 
 @app.route("/submit", methods=['POST'])
 def submit():
-    change_num = request.values['change_num']
+    change_num = int(request.values['change_num'])
     utils.edit_number(change_num)
+    utils.del_token_data(change_num)
+    return redirect("/clinic_number")
 
-    dataFromDB = utils.get_number()
-    data = dataFromDB[0]
-    return render_template('clinic_page.html', html_records = data)
-
-
-# @app.route("/changeNumTo/<n>")    
-# def webhchangeNum(n):
-#     if n.isnumeric():
-#         data = ["0",str(n)]
-#         utils.edit_number(data)
-#     return render_template('clinic_page.html', html_records = data)
-
-# @app.route("/submit", methods=['POST'])
-# def submit():
-#     new_num = request.values['change_num']
-#     data = [0,new_num]
-#     utils.edit_number(data)
-#     data = utils.get_number()
-#     return render_template('clinic_page.html', html_records = data)
 
 @app.route("/clinic_number")    
 def show_clinic_num():
+<<<<<<< HEAD
     dataFromDB = utils.get_number()
     data = dataFromDB[0]
     return render_template("clinic_page.html", html_records = data)
@@ -101,11 +102,16 @@ def submit():
 
 @app.route("/clinic_number")    
 def show_clinic_num():
+=======
+>>>>>>> master_H
     nowNumFromDB = utils.get_number()
     tokensListFromDB = utils.get_tokenList()
     nowNum = nowNumFromDB[0]
     return render_template('clinic_page.html', now_num_records = nowNum, token_list = tokensListFromDB)
+<<<<<<< HEAD
 >>>>>>> 48ea54759af8682a81b1a9f715f416b617286703
+=======
+>>>>>>> master_H
 
 # 增加的這段放在上面
 
@@ -128,10 +134,34 @@ def callback():
 @handler.add(MessageEvent, message=TextMessage)
 def pixabay_isch(event):
 <<<<<<< HEAD
+<<<<<<< HEAD
     if 'change' in event.message.text:  # 0 change to 5
         try:
             data_list = event.message.text.split(" ")   # data_list = [0, change, to, 5]
             reply = utils.edit_number(data_list)
+            line_bot_api.reply_message(
+=======
+    if (event.message.text.isdigit()):
+        insert_data = [event.source.user_id, int(event.message.text)]
+        if utils.exit_token(insert_data):
+            res = utils.change_token_data(insert_data)
+        else:
+            res = utils.insert_token(insert_data)
+        line_bot_api.reply_message(
+>>>>>>> master_H
+                event.reply_token,
+                TextSendMessage(text = res)
+            )
+        
+    elif 'token' in event.message.text:
+        line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text = str(event))
+            )
+    elif 'change' in event.message.text:  # 0 change to 5
+        try:
+            data_list = event.message.text.split(" ")   # data_list = [0, change, to, 5]
+            reply = utils.edit_number(data_list[3])
             line_bot_api.reply_message(
                 event.reply_token,
                 TextSendMessage(text=reply)
@@ -143,21 +173,6 @@ def pixabay_isch(event):
                 TextSendMessage(text='失敗了')
             )
 
-    elif '草泥馬訓練紀錄' in event.message.text:
-        try:
-            record_list = prepare_record.prepare_record(event.message.text)
-            reply = line_insert_record.line_insert_record(record_list)
-
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text=reply)
-            )
-                
-        except:
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text='失敗了')
-            )
     elif '選單' in event.message.text:
         f = open('./flex_message/menu.json',)
         data = json.load(f)

@@ -5,16 +5,20 @@
 
 {% block main %}
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+<!-- 修改號碼 -->
+
+>>>>>>> master_H
 <div class="row">
   <div class="col">
     <h1>
-        department {{ html_records[0] }}
+        department {{ now_num_records[0] }} now is <h1 id="now_num">{{ now_num_records[2] }}</h1>
     </h1>
-    <h1>
-        now is {{ html_records[1] }}
-    </h1>
-    <form method="POST" action="{{url_for('submit')}}">
+    <form name="form" id="form" method="POST" action="{{url_for('submit')}}">
       <div class="form-row">
+<<<<<<< HEAD
       <div class="col-12 mt-3">
         <input type="text" class="form-control" name="change_num" placeholder="clinic number">
       </div>
@@ -31,6 +35,8 @@
     </h1>
     <form name="form" id="form" method="POST" action="{{url_for('submit')}}">
       <div class="form-row">
+=======
+>>>>>>> master_H
       <div class="col-3 mt-3">
         <input id="edit_now_num" type="text" class="form-control" name="change_num" placeholder="clinic number">
 
@@ -39,7 +45,10 @@
         <button id="reset_btn" onclick="resetNum()" class="btn btn-danger">Reset
         </button>
         <button id="plus_btn" onclick="plusOne()" class="btn btn-primary">+1
+<<<<<<< HEAD
 >>>>>>> 48ea54759af8682a81b1a9f715f416b617286703
+=======
+>>>>>>> master_H
         </button>
       </div>
       </div>
@@ -48,7 +57,10 @@
   </div>
 </div>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> master_H
 
 <!-- 宣告一個巨集 -->
 {% macro easy_row(data, tag) -%}
@@ -112,5 +124,8 @@
     document.form.submit();
   }
 </script>
+<<<<<<< HEAD
 >>>>>>> 48ea54759af8682a81b1a9f715f416b617286703
+=======
+>>>>>>> master_H
 {% endblock %}
