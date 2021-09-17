@@ -3,11 +3,4 @@ gunicorn==19.9.0
 line-bot-sdk==1.14.0
 APScheduler==3.6.1
 psycopg2-binary
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
 flask-socketio
->>>>>>> 48ea54759af8682a81b1a9f715f416b617286703
-=======
-flask-socketio
->>>>>>> master_H

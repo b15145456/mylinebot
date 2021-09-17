@@ -7,25 +7,19 @@ def edit_number(change_num):
 
     conn = psycopg2.connect(DATABASE_URL, sslmode='require')
     cursor = conn.cursor()
-<<<<<<< HEAD
-<<<<<<< HEAD
     data = str(change_num)
     table_columns = '(departments_id, number, edit_time)'
     postgres_insert_query = f"""UPDATE clinic_number SET departments_id=0, number={data}, edit_time=CURRENT_TIMESTAMP;"""
 
     cursor.executemany(postgres_insert_query, data)
-=======
     data = change_num
     postgres_insert_query = f"""UPDATE clinic_number SET departments_id=0, number_now={data}, edit_time=CURRENT_TIMESTAMP;"""
 
     cursor.execute(postgres_insert_query)
->>>>>>> 48ea54759af8682a81b1a9f715f416b617286703
-=======
     data = change_num
     postgres_insert_query = f"""UPDATE clinic_number SET departments_id=0, number_now={data}, edit_time=CURRENT_TIMESTAMP;"""
 
     cursor.execute(postgres_insert_query)
->>>>>>> master_H
     conn.commit()
 
     message = f"恭喜您！ 成功修改資料"
@@ -59,11 +53,6 @@ def get_number():
     conn.close()
     
     return message
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> master_H
 
 def reset_number():
     DATABASE_URL = os.environ['DATABASE_URL']
@@ -193,10 +182,4 @@ def del_token_data(now_num):
 
     cursor.close()
     conn.close()
-    
-<<<<<<< HEAD
     return message
->>>>>>> 48ea54759af8682a81b1a9f715f416b617286703
-=======
-    return message
->>>>>>> master_H
