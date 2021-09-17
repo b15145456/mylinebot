@@ -4,6 +4,7 @@
 {% block title %}賴田捕手：訓練紀錄{% endblock %}
 
 {% block main %}
+<<<<<<< HEAD
 <div class="row">
   <div class="col">
     <h1>
@@ -19,6 +20,26 @@
       </div>
       <div class="col-12 mt-3 pt-3">
         <button type="submit" class="btn btn-primary">Submit
+=======
+
+<!-- 修改號碼 -->
+
+<div class="row">
+  <div class="col">
+    <h1>
+        department {{ now_num_records[0] }} now is <h1 id="now_num">{{ now_num_records[2] }}</h1>
+    </h1>
+    <form name="form" id="form" method="POST" action="{{url_for('submit')}}">
+      <div class="form-row">
+      <div class="col-3 mt-3">
+        <input id="edit_now_num" type="text" class="form-control" name="change_num" placeholder="clinic number">
+
+        <button id="submit_btn" onclick="return false" type="submit" class="btn btn-primary">Submit
+        </button>
+        <button id="reset_btn" onclick="resetNum()" class="btn btn-danger">Reset
+        </button>
+        <button id="plus_btn" onclick="plusOne()" class="btn btn-primary">+1
+>>>>>>> 48ea54759af8682a81b1a9f715f416b617286703
         </button>
       </div>
       </div>
@@ -26,4 +47,70 @@
     </form>
   </div>
 </div>
+<<<<<<< HEAD
+=======
+
+<!-- 宣告一個巨集 -->
+{% macro easy_row(data, tag) -%}
+{% for record in data %}
+<div class="row">
+  {% for item in record %}
+  <div class="col-3">
+  <{{ tag }}>{{ item }}</{{ tag }}>
+  </div>
+  {% endfor %}
+  <!-- <button id = " " class="btn btn-danger">Delete</button> -->
+</div>
+{% endfor %}
+{%- endmacro %}
+
+<!-- 宣告一些等等會用來創造欄位說明的變數 -->
+{% set col_names = (("token_id", "token_num"),) %}
+
+<!-- 用巨集快速創造欄位名稱 -->
+{{ easy_row(col_names, "h2") }}
+
+<!-- 將所有token紀錄列在下面 -->
+{{ easy_row(token_list, "p") }}
+
+<script>
+  $(document).ready(function(){
+
+    $("#submit_btn").click(function(){
+      input_data = $("#edit_now_num").val()
+        if( input_data=="" ){
+            alert("此為必填");
+            eval($("#edit_now_num").focus());       
+        }else if( !isNaN(Number(input_data)) ){
+          document.form.submit();
+        }else{
+          alert("請輸入數字");
+          eval($("#edit_now_num").focus());       
+ 
+        }
+    })
+    // var url = document.location.href;
+    // var port = '5000';
+    // var socket = io.connect(url + ':' + port);
+
+    // socket.on('connect', function() {
+    // socket.emit('connect_event', {data: 'connected!'});})
+
+    // socket.on('server_response', function(msg) {
+    // $('#log').append('<br>' + $('<div/>').text('Received #' + ': ' + msg.data).html());});
+    
+    // $('form#emit').submit(function(event) {
+    // socket.emit('client_event', {data: $('#emit_data').val()});
+    // return false;});
+  })
+  function resetNum(){
+    document.getElementById("edit_now_num").value = "0";
+    document.form.submit();
+  }
+  function plusOne(){
+    document.getElementById("edit_now_num").value = (parseInt( document.getElementById("now_num").textContent )+1).toString();
+    document.form.submit();
+  }
+</script>
+>>>>>>> 48ea54759af8682a81b1a9f715f416b617286703
 {% endblock %}

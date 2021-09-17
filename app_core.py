@@ -2,11 +2,16 @@ from __future__ import unicode_literals
 import os
 import json
 # 增加了 render_template
+<<<<<<< HEAD
 from flask import Flask, request, abort, render_template
+=======
+from flask import Flask, request, abort, render_template, redirect
+>>>>>>> 48ea54759af8682a81b1a9f715f416b617286703
 
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage, ImageSendMessage, FlexSendMessage
+<<<<<<< HEAD
 
 import configparser
 
@@ -15,9 +20,18 @@ import re
 import random
 # try git on vs code   
 from custom_models import prepare_record, line_insert_record, show_records, utils
+=======
+from flask_socketio import SocketIO, emit
+import configparser
+>>>>>>> 48ea54759af8682a81b1a9f715f416b617286703
+
+import urllib
+import re
+import random
+# try git on vs code   
+from custom_models import utils
 
 app = Flask(__name__)
-
 # LINE 聊天機器人的基本資料
 config = configparser.ConfigParser()
 config.read('config.ini')
@@ -29,6 +43,7 @@ handler = WebhookHandler(config.get('line-bot', 'channel_secret'))
 def home():
     return render_template("home.html")
 
+<<<<<<< HEAD
 # @app.route("/from_start")
 # def from_start():
 #     return render_template("from_start.html")
@@ -68,6 +83,29 @@ def show_clinic_num():
     dataFromDB = utils.get_number()
     data = dataFromDB[0]
     return render_template("clinic_page.html", html_records = data)
+=======
+# socketio = SocketIO(app)
+
+# @socketio.on('connect_event')
+# def connected_msg(msg):
+#     emit('server_response', {'data': msg['data']})
+
+
+@app.route("/submit", methods=['POST'])
+def submit():
+    change_num = int(request.values['change_num'])
+    utils.edit_number(change_num)
+    utils.del_token_data(change_num)
+    return redirect("/clinic_number")
+
+
+@app.route("/clinic_number")    
+def show_clinic_num():
+    nowNumFromDB = utils.get_number()
+    tokensListFromDB = utils.get_tokenList()
+    nowNum = nowNumFromDB[0]
+    return render_template('clinic_page.html', now_num_records = nowNum, token_list = tokensListFromDB)
+>>>>>>> 48ea54759af8682a81b1a9f715f416b617286703
 
 # 增加的這段放在上面
 
@@ -89,6 +127,7 @@ def callback():
 # 請 pixabay 幫我們找圖
 @handler.add(MessageEvent, message=TextMessage)
 def pixabay_isch(event):
+<<<<<<< HEAD
     if 'change' in event.message.text:  # 0 change to 5
         try:
             data_list = event.message.text.split(" ")   # data_list = [0, change, to, 5]
@@ -123,6 +162,43 @@ def pixabay_isch(event):
         f = open('./flex_message/menu.json',)
         data = json.load(f)
         line_bot_api.reply_message(
+=======
+    if (event.message.text.isdigit()):
+        insert_data = [event.source.user_id, int(event.message.text)]
+        if utils.exit_token(insert_data):
+            res = utils.change_token_data(insert_data)
+        else:
+            res = utils.insert_token(insert_data)
+        line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text = res)
+            )
+        
+    elif 'token' in event.message.text:
+        line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text = str(event))
+            )
+    elif 'change' in event.message.text:  # 0 change to 5
+        try:
+            data_list = event.message.text.split(" ")   # data_list = [0, change, to, 5]
+            reply = utils.edit_number(data_list[3])
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text=reply)
+            )
+            
+        except:
+            line_bot_api.reply_message(
+                event.reply_token,
+                TextSendMessage(text='失敗了')
+            )
+
+    elif '選單' in event.message.text:
+        f = open('./flex_message/menu.json',)
+        data = json.load(f)
+        line_bot_api.reply_message(
+>>>>>>> 48ea54759af8682a81b1a9f715f416b617286703
                     event.reply_token,
                     FlexSendMessage(
                         alt_text = 'index',
@@ -174,3 +250,4 @@ def pixabay_isch(event):
             pass
 if __name__ == "__main__":
     app.run()
+    # socketio.run(app)
