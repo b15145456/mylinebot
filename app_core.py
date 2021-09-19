@@ -45,24 +45,6 @@ def show_clinic_num():
 # def connected_msg(msg):
 #     emit('server_response', {'data': msg['data']})
 
-
-@app.route("/submit", methods=['POST'])
-def submit():
-    change_num = int(request.values['change_num'])
-    utils.edit_number(change_num)
-    utils.del_token_data(change_num)
-    return redirect("/clinic_number")
-
-
-@app.route("/clinic_number")    
-def show_clinic_num():
-    nowNumFromDB = utils.get_number()
-    tokensListFromDB = utils.get_tokenList()
-    nowNum = nowNumFromDB[0]
-    return render_template('clinic_page.html', now_num_records = nowNum, token_list = tokensListFromDB)
-
-# 增加的這段放在上面
-
 # 接收 LINE 的資訊
 @app.route("/callback", methods=['POST'])
 def callback():
