@@ -14,7 +14,7 @@ config = configparser.ConfigParser()
 config.read('config.ini')
 
 line_bot_api = LineBotApi(config.get('line-bot', 'channel_access_token'))
-admin_id = 'U5bdce5ac2205e9325e1a05fdd32f9677'
+admin_id = 'Uc20f5abc2ef473849e0958ba31a42044'
 
 def checkNum(clinic):
 
