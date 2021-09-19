@@ -1,0 +1,38 @@
+<!-- 宣告我們要套用模板 -->
+{% extends "base2.html" %}
+
+{% block title %}asanoshin-line-bot{% endblock %}
+
+{% block main %}
+
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h1>已登記LINE ID</h1>
+        </div>
+        {% for id in id_list %}
+            <li>{{ id }}</li>
+        {% endfor %}
+    </div>
+</div>
+
+<h1>Bootstrap Tutorial</h1>
+<p>Bootstrap is the most popular HTML, CSS...</p>
+
+<div class="container">
+    <div class="row">
+        <div class="col-2 bg-light border rounded border-dark">佔2格</div>
+        <div class="col-4 bg-light border rounded border-dark">佔4格</div>
+        <div class="col bg-light border rounded border-dark">佔12-2-4-2格</div>
+        <div class="col-2 bg-light border rounded border-dark">佔2格</div>
+    </div>
+    <div class="row">
+        <div class="col bg-light border rounded border-dark">平均等分的第 1 塊</div>
+        <div class="col bg-light border rounded border-dark">平均等分的第 2 塊</div>
+        <div class="col bg-light border rounded border-dark">平均等分的第 3 塊</div>
+    </div>
+</div>
+
+{% endblock %}
+
+

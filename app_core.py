@@ -1,49 +1,73 @@
+# 載入需要的模組
 from __future__ import unicode_literals
 import os
-import json
-# 增加了 render_template
+import psycopg2
 from flask import Flask, request, abort, render_template, redirect
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
-from linebot.models import MessageEvent, TextMessage, TextSendMessage, ImageSendMessage, FlexSendMessage
-from flask_socketio import SocketIO, emit
+from linebot.models import MessageEvent, TextMessage, TextSendMessage
+
+
+# try pull request！
+
 import configparser
-import urllib
-import re
-import random
-# try git on vs code   
-from custom_models import utils
+
+from models import botTalk, callDatabase
+
 app = Flask(__name__)
+
 # LINE 聊天機器人的基本資料
 config = configparser.ConfigParser()
 config.read('config.ini')
 
-line_bot_api = LineBotApi(config.get('line-bot', 'channel_access_token'))
 handler = WebhookHandler(config.get('line-bot', 'channel_secret'))
 
+# 首頁
 @app.route("/")
 def home():
-    return render_template("home.html")
+    clinic1 = callDatabase.getClinicNum(1)[0]
+    clinic2 = callDatabase.getClinicNum(2)[0]
+    list1 = callDatabase.getIdListFromClinic(1)
+    list2 = callDatabase.getIdListFromClinic(2)
 
+    if clinic1 == False:
+        clinic1 = (None,)
+    if clinic2 == False:
+        clinic2 = (None,)
+    if list1 == False:
+        list1 = [(None,None)]
+    if list2 == False:
+        list2 = [(None,None)]
+
+    print('--------------------------{} : {} : {} : {}--------------------------'.format(clinic1, clinic2, list1, list2))
+    return render_template('home.html', clinic_info_1 = clinic1, clinic_info_2 = clinic2, id_list_1 = list1, id_list_2 = list2)
 
 @app.route("/submit", methods=['POST'])
 def submit():
     change_num = int(request.values['change_num'])
-    utils.edit_number(change_num)
-    utils.del_token_data(change_num)
-    return redirect("/clinic_number")
+    callDatabase.updateClinicNum(1, change_num)
+    botTalk.checkNum(1)
+    return redirect("/")
 
+# test page
+@app.route("/test")
+def test():
+    list = callDatabase.getIdList()
+    return render_template('test.html', id_list = list)
 
-@app.route("/clinic_number")    
-def show_clinic_num():
-    dataFromDB = utils.get_number()
-    data = dataFromDB[0]
-    return render_template("clinic_page.html", html_records = data)
-# socketio = SocketIO(app)
+# test function zzz
+@app.route("/function2", methods=['POST'])
+def addNum():
+    num = callDatabase.getClinicNum(2)[0][0] + 1
+    callDatabase.updateClinicNum(2, num)
+    botTalk.checkNum(2)
+    return redirect("/")
 
-# @socketio.on('connect_event')
-# def connected_msg(msg):
-#     emit('server_response', {'data': msg['data']})
+@app.route("/function3", methods=['POST'])
+def resetNum():
+    callDatabase.updateClinicNum(2, 0)
+    return redirect("/")
+
 
 # 接收 LINE 的資訊
 @app.route("/callback", methods=['POST'])
@@ -53,6 +77,10 @@ def callback():
     body = request.get_data(as_text=True)
     app.logger.info("Request body: " + body)
 
+    print("-----------------------------body-----------------------------")
+    print(body)
+    print("---------------------------body end---------------------------")
+
     try:
         handler.handle(body, signature)
     except InvalidSignatureError:
@@ -60,93 +88,22 @@ def callback():
 
     return 'OK'
 
-# 請 pixabay 幫我們找圖
+# 當收到 LINE 的 MessageEvent (信息事件)，而且信息是屬於 TextMessage (文字信息) 時就執行
 @handler.add(MessageEvent, message=TextMessage)
-def pixabay_isch(event):
-    if (event.message.text.isdigit()):
-        insert_data = [event.source.user_id, int(event.message.text)]
-        if utils.exit_token(insert_data):
-            res = utils.change_token_data(insert_data)
-        else:
-            res = utils.insert_token(insert_data)
-        line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text = res)
-            )
-        
-    elif 'token' in event.message.text:
-        line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text = str(event))
-            )
-    elif 'change' in event.message.text:  # 0 change to 5
-        try:
-            data_list = event.message.text.split(" ")   # data_list = [0, change, to, 5]
-            reply = utils.edit_number(data_list[3])
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text=reply)
-            )
-            
-        except:
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text='失敗了')
-            )
+def reply_text_message(event):
+    reply = False
 
-    elif '選單' in event.message.text:
-        f = open('./flex_message/menu.json',)
-        data = json.load(f)
-        line_bot_api.reply_message(
-                    event.reply_token,
-                    FlexSendMessage(
-                        alt_text = 'index',
-                        contents = data
-                    )
-                )
-    else:
-        try:
-            我想找圖 = {'q': event.message.text}
-            url = f"https://imgur.com/search?{urllib.parse.urlencode(我想找圖)}/"
-            hdr = {'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.64 Safari/537.11',
-                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-                'Accept-Charset': 'ISO-8859-1,utf-8;q=0.7,*;q=0.3',
-                'Accept-Encoding': 'none',
-                'Accept-Language': 'en-US,en;q=0.8',
-                'Connection': 'keep-alive'}  
+    if not reply:
+        reply = botTalk.adminCmd(event)
 
-            req = urllib.request.Request(url, headers = hdr)
-            conn = urllib.request.urlopen(req)
+    if not reply:
+        reply = botTalk.lineId(event)
 
-            print('fetch page finish')
+    if not reply:
+        reply = botTalk.deleteId(event)
 
-            pattern = 'src="\S*.jpg"'
-            img_list = []
+    if not reply:
+        reply = botTalk.reply(event)
 
-            for match in re.finditer(pattern, str(conn.read())):
-                img_list.append(match.group()[14:-1])
-
-            print(img_list)
-
-            random_img_url = 'https://i.imgur'+img_list[random.randint(0, len(img_list)+1)]
-            print('fetch img url finish')
-            print(random_img_url)
-
-            line_bot_api.reply_message(
-                event.reply_token,
-                ImageSendMessage(
-                    original_content_url=random_img_url,
-                    preview_image_url=random_img_url
-                )
-            )
-        # 如果找不到圖，就學你說話
-        except:
-            print('cannot find phote')
-            line_bot_api.reply_message(
-                event.reply_token,
-                TextSendMessage(text = "Hey!" + str(event.source.user_id) +"\n I can't understand your request!")
-            )
-            pass
 if __name__ == "__main__":
     app.run()
-    # socketio.run(app)

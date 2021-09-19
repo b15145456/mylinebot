@@ -1,22 +1,29 @@
 from apscheduler.schedulers.blocking import BlockingScheduler
+# from linebot import LineBotApi, WebhookHandler
+# from linebot.models import MessageEvent, TextMessage, TextSendMessage
+
+
 import urllib
-import datetime
 import urllib.request
+import datetime
+import configparser
+
+config = configparser.ConfigParser()
+config.read('config.ini')
+
+# line_bot_api = LineBotApi(config.get('line-bot', 'channel_access_token'))
+# handler = WebhookHandler(config.get('line-bot', 'channel_secret'))
+
 sched = BlockingScheduler()
 
-@sched.scheduled_job('cron', day_of_week='mon-fri', minute='*/20')
+@sched.scheduled_job('cron', hour='8-22', minute='*/20')
 def scheduled_job():
-    print('========== APScheduler CRON =========')
-    # 馬上讓我們瞧瞧
-    print('This job runs every day */2 min.')
-    # 利用datetime查詢時間
-    print(f'{datetime.datetime.now().ctime()}')
-    print('========== APScheduler CRON =========')
-    #try
-    url = "https://clinic-bot-v1.herokuapp.com"
+    url = "https://clinic-bot-v1.herokuapp.com/"
     conn = urllib.request.urlopen(url)
         
     for key, value in conn.getheaders():
         print(key, value)
+
+    # line_bot_api.push_message('U5bdce5ac2205e9325e1a05fdd32f9677', TextSendMessage(text='20分鐘惹'))
 
 sched.start()

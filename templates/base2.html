@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <!-- icon -->
+        <link rel="icon" href="{{ url_for('static', filename='img/icon.ico') }}">
+
+        <!-- CDN -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+        
+        <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC&display=swap" rel="stylesheet">
+
+        <!-- custom CSS -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/custom.css') }}">
+
+        <!-- CSS style -->
+        <style> body {font-family: 'Noto Sans TC', sans-serif;}</style>
+
+        <!-- 可供更改的部分 -->
+        <title>{% block title %}{% endblock %}</title>
+    </head>
+
+    <body>
+        <!-- nav -->
+        <nav class="navbar navbar-dark bg-custom-color">
+            <a class="navbar-brand" href="/">&nbsp LINE 預約提醒系統</a>
+        </nav>
+
+        <main>
+            <!-- 可供更改的部分 -->
+            {% block main %}{% endblock %}
+        </main>
+
+        <!-- CDN -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+        
+        <!-- 可供更改的部分 -->
+        {% block script %}{% endblock %}
+
+    </body>
+</html>
+
+

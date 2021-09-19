@@ -1,31 +1,152 @@
 
 {% extends "base.html" %}
 
-{% block title %}賴田捕手{% endblock %}
+{% block title %}asanoshin-line-bot{% endblock %}
 
 {% block main %}
-<div class="jumbotron">
-  <h1 class="display-4">跟《賴田捕手》打聲招呼！</h1>
-  <p class="lead">就像一個巨大的橫幅看板一樣，<strong>Jumbotron</strong> 可以快速的抓住使用者的目光！</p>
-  <hr class="my-4">
-  <p>當網頁已經設計的差不多，卻還有巨大的空間不知道該怎麼處理時，想想一直待在你身邊的好朋友 <strong>Jumbotron</strong></p>
-  <a class="btn-dirty-purple btn-lg" href="#" role="button">了解更多</a>
+
+<!-- 宣告一個巨集 -->
+{% macro easy_row(data, tag) -%}
+{% for record in data %}
+<div class="row">
+  {% for item in record %}
+  <div class="col-6">
+  <{{ tag }}>{{ item }}</{{ tag }}>
+  </div>
+  {% endfor %}
+  <!-- <button id = " " class="btn btn-danger">Delete</button> -->
 </div>
-<div class="container">
-  <div class="row desc">
+{% endfor %}
+{%- endmacro %}
+
+<!-- 宣告一些等等會用來創造欄位說明的變數 -->
+{% set col_names = (("line ID","看診號碼"),) %}
+
+
+<!-- 修改號碼 -->
+<div class="row">
+  <!-- clinic 1 -->
   <div class="col">
-    <h2><i class="fas fa-kiwi-bird"></i>  輕鬆</h2>
-    <p>不住在紐約的人可能不知道，維克牧場坐落在一家裝潢的有點華麗的賽頓莊園裡。我以前經常去那裡，但現在我再也不去了。我慢慢沒有了這個習慣。維克牧場是個相當愉快適合社交的場合，令許許多多成熟老練的草泥馬們爭相前往。</p>
-    </div>
+    <h1>
+        診間 1 現在看到 <b><h id="now_num">{{ clinic_info_1[0] }} </h></b>號
+    </h1>
+    <form name="form" id="form" method="POST" action="{{url_for('submit')}}">
+      <div class="form-row">
+        <div class="col-auto">
+          <input id="edit_now_num" type="text" class="form-control mb-2" name="change_num" placeholder="可自訂看診號">
+        </div>
+        <div class="col-auto">
+          <button id="submit_btn" onclick="return false" type="submit" class="btn btn-primary mb-2">送出</button>
+        </div>
+        <div class="col-auto">
+            <button id="plus_btn" onclick="plusOne()" class="btn btn-primary mb-2">+1
+        </div>
+        <div class="col-auto">
+            <button id="reset_btn" onclick="resetNum()" class="btn btn-danger mb-2">重置
+        </div>
+      </div>
+    </form>
+    <!-- 用巨集快速創造欄位名稱 -->
+    {{ easy_row(col_names, "h2") }}
+
+    <!-- 將所有token紀錄列在下面 -->
+    {{ easy_row(id_list_1, "p") }}
+  </div>
+  <!-- clinic 2 -->
   <div class="col">
-      <h2><i class="fas fa-smile-wink"></i>  愉悅</h2>
-    <p>有一個在我隔壁的傢伙不停的對自己照顧的草泥馬細聲細氣的說些討好的話。他不停的稱讚著牠的羊蹄，說牠有著貴族一般修長又強韌的羊蹄。什麼鬼。</p>
+    <h1>
+        診間 2 現在看到 <b><h id="now_num">{{ clinic_info_2[0] }} </h></b>號
+    </h1>
+    <div class="form-row">
+      <div class="col-auto">
+        <input id="edit_now_num" type="text" class="form-control mb-2" name="change_num2" placeholder="可自訂看診號">
+      </div>
+      <div class="col-auto">
+        <form action="/function1" method="post">
+          <button class="btn btn-primary mb-2" name="forwardBtn" type="submit">送出</button>
+        </form>
+      </div>
+      <div class="col-auto">
+        <form action="/function2" method="post">
+          <button class="btn btn-primary mb-2" name="forwardBtn" type="submit">+1</button>
+        </form>
+      </div>
+      <div class="col-auto">
+        <form action="/function3" method="post">
+          <button class="btn btn-danger mb-2" name="forwardBtn" type="submit">重置</button>
+        </form>
+      </div>
     </div>
-  <div class="col">
-      <h2><i class="fas fa-leaf"></i>  無害</h2>
-    <p>我確實問得太過私人了，我明白這點。但這就是露絲讓人覺得厭煩的其中一點。當我們還在胡頓莊園時，露絲老是喜歡要你描述最私人的一些經驗，還要非常詳細，鉅細靡遺那種。但當你開始討論到她的私事時，她整個臉就直接拉下來給你看。</p>
-    </div>
+    <!-- 用巨集快速創造欄位名稱 -->
+    {{ easy_row(col_names, "h2") }}
+
+    <!-- 將所有token紀錄列在下面 -->
+    {{ easy_row(id_list_2, "p") }}
   </div>
 </div>
 
+<script>
+  $(document).ready(function(){
+
+    $("#submit_btn").click(function(){
+      input_data = $("#edit_now_num").val()
+        if( input_data=="" ){
+            alert("此為必填");
+            eval($("#edit_now_num").focus());       
+        }else if( !isNaN(Number(input_data)) ){
+          document.form.submit();
+        }else{
+          alert("請輸入數字");
+          eval($("#edit_now_num").focus());       
+ 
+        }
+    })
+    // var url = document.location.href;
+    // var port = '5000';
+    // var socket = io.connect(url + ':' + port);
+
+    // socket.on('connect', function() {
+    // socket.emit('connect_event', {data: 'connected!'});})
+
+    // socket.on('server_response', function(msg) {
+    // $('#log').append('<br>' + $('<div/>').text('Received #' + ': ' + msg.data).html());});
+    
+    // $('form#emit').submit(function(event) {
+    // socket.emit('client_event', {data: $('#emit_data').val()});
+    // return false;});
+  })
+  $('#testBTN').click(
+  function() {
+    var form_data = new FormData();
+    form_data.append('theName', $("#theName").val());
+    form_data.append('thefood', $("#thefood").val());
+    // form_data.append('xxx', $("#xxx").text());
+    //附帶text也是可以的
+    $.ajax({
+          type: "POST",
+          url: $SCRIPT_ROOT + "/route_function",
+          data: form_data,
+          success: (data) => {
+            console.log(data.validate);
+
+            alert(data.validate)
+            alert(data.Rtnfood)
+            //也可以用jquery來呈現結果
+          },
+          contentType: false,
+          processData: false,
+          dataType: "json"
+        });
+    }
+    );
+
+  function resetNum(){
+    document.getElementById("edit_now_num").value = "0";
+    document.form.submit();
+  }
+  function plusOne(){
+    document.getElementById("edit_now_num").value = (parseInt( document.getElementById("now_num").textContent )+1).toString();
+    document.form.submit();
+  }
+</script>
 {% endblock %}
