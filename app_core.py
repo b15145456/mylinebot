@@ -69,15 +69,18 @@ def resetNum():
     return redirect("/")
 
 #test Ajax zzzz
-@app.route("/reset/<int:clinic_id>", methods=['POST'])
+@app.route("/reset/<int:clinic_id>", methods=['GET','POST'])
 def reset(clinic_id):
-    try:
-        callDatabase.updateClinicNum(clinic_id, 0)
-        result = {'success': True, 'response': 'reset clinic number'}
-    except:
-        result = {'success': False, 'response': 'Something went wrong'}
-
-    return jsonify(result)
+    if request.method == 'POST':
+        try:
+            callDatabase.updateClinicNum(clinic_id, 0)
+            result = {'success': True, 'response': 'reset clinic number'}
+        except:
+            result = {'success': False, 'response': 'Something went wrong'}
+        return jsonify(result)
+    else:
+        return render_template('home.html')
+    
 
 
 
