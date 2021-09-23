@@ -104,11 +104,10 @@
         }
     });
 
-    $('#reset_btn_1').click((this) =>{
-      console.log(this)
+    $('#reset_btn_1').click(() =>{
         $.ajax({
             type: 'POST',
-            url: '/reset/' + this[0].id.split('_')[2],
+            url: '/reset/' + document.getElementById("reset_btn_1").id.split('_')[2],
             success: (res) => {
                 console.log(res.response)
                 location.reload();
