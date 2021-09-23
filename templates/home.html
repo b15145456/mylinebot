@@ -30,7 +30,8 @@
     <h1>
         診間 1 現在看到 <b><h id="now_num">{{ clinic_info_1[0] }} </h></b>號
     </h1>
-    <form name="form" id="form" method="POST" action="{{url_for('submit')}}">
+    <form name="form" id="form" method="POST">
+    <!-- <form name="form" id="form" method="POST" action="{{url_for('submit')}}"> -->
       <div class="form-row">
         <div class="col-auto">
           <input id="edit_now_num" type="text" class="form-control mb-2" name="change_num" placeholder="可自訂看診號">
