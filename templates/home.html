@@ -108,7 +108,7 @@
         const reset = $(this);
         $.ajax({
             type: 'POST',
-            url: '/reset/' + reset.id.split('_')[2],
+            url: '/reset/' + reset[0].id.split('_')[2],
             success: (res) => {
                 console.log(res.response)
                 location.reload();
