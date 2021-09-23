@@ -69,7 +69,7 @@ def resetNum():
     return redirect("/")
 
 #test Ajax zzzz
-@app.route("/reset/<clinic_id>", methods=['GET', 'POST'])
+@app.route("/reset/<int:clinic_id>", methods=['POST'])
 def reset(clinic_id):
     try:
         callDatabase.updateClinicNum(clinic_id, 0)
