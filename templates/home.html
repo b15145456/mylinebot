@@ -42,7 +42,8 @@
             <button id="plus_btn" onclick="plusOne()" class="btn btn-primary mb-2">+1
         </div>
         <div class="col-auto">
-            <button id="reset_btn" onclick="resetNum()" class="btn btn-danger mb-2">重置
+            <button id="reset_btn_1" class="btn btn-danger mb-2 reset">重置
+            <!-- <button id="reset_btn" onclick="resetNum()" class="btn btn-danger mb-2">重置 -->
         </div>
       </div>
     </form>
@@ -52,7 +53,7 @@
     <!-- 將所有token紀錄列在下面 -->
     {{ easy_row(id_list_1, "p") }}
   </div>
-  <!-- clinic 2 -->
+  <!-------------------------------- clinic 2 ---------------------------------------->
   <div class="col">
     <h1>
         診間 2 現在看到 <b><h id="now_num">{{ clinic_info_2[0] }} </h></b>號
@@ -100,46 +101,24 @@
           eval($("#edit_now_num").focus());       
  
         }
-    })
-    // var url = document.location.href;
-    // var port = '5000';
-    // var socket = io.connect(url + ':' + port);
+    });
 
-    // socket.on('connect', function() {
-    // socket.emit('connect_event', {data: 'connected!'});})
-
-    // socket.on('server_response', function(msg) {
-    // $('#log').append('<br>' + $('<div/>').text('Received #' + ': ' + msg.data).html());});
-    
-    // $('form#emit').submit(function(event) {
-    // socket.emit('client_event', {data: $('#emit_data').val()});
-    // return false;});
-  })
-  $('#testBTN').click(
-  function() {
-    var form_data = new FormData();
-    form_data.append('theName', $("#theName").val());
-    form_data.append('thefood', $("#thefood").val());
-    // form_data.append('xxx', $("#xxx").text());
-    //附帶text也是可以的
-    $.ajax({
-          type: "POST",
-          url: $SCRIPT_ROOT + "/route_function",
-          data: form_data,
-          success: (data) => {
-            console.log(data.validate);
-
-            alert(data.validate)
-            alert(data.Rtnfood)
-            //也可以用jquery來呈現結果
-          },
-          contentType: false,
-          processData: false,
-          dataType: "json"
+    $('.reset').click(() =>{
+        const reset = $(this);
+        $.ajax({
+            type: 'POST',
+            url: '/reset/' + reset.id.split('_')[2],
+            success: (res) => {
+                console.log(res.response)
+                location.reload();
+            },
+            error: () => {
+                console.log('Error');
+            }
         });
-    }
-    );
+    });
 
+  });
   function resetNum(){
     document.getElementById("edit_now_num").value = "0";
     document.form.submit();

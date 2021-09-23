@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 import os
 import psycopg2
-from flask import Flask, request, abort, render_template, redirect
+from flask import Flask, request, abort, render_template, redirect, jsonify
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
@@ -67,6 +67,18 @@ def addNum():
 def resetNum():
     callDatabase.updateClinicNum(2, 0)
     return redirect("/")
+
+#test Ajax zzzz
+@app.route("/reset/<clinic_id>", methods=['POST'])
+def reset(clinic_id):
+    try:
+        callDatabase.updateClinicNum(clinic_id, 0)
+        result = {'success': True, 'response': 'reset clinic number'}
+    except:
+        result = {'success': False, 'response': 'Something went wrong'}
+
+    return jsonify(result)
+
 
 
 # 接收 LINE 的資訊
