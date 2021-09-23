@@ -105,11 +105,11 @@
     });
 
     $('.reset').click(() =>{
-        const reset = $(this);
-        const clinic_id = reset[0].id.split('_')[2]
+        var reset = $(this);
+        reset = reset[0];
         $.ajax({
             type: 'POST',
-            url: '/reset/' + clinic_id,
+            url: '/reset/' + reset.id.split('_')[2],
             success: (res) => {
                 console.log(res.response)
                 location.reload();
