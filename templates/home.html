@@ -105,9 +105,8 @@
     });
 
     $('.reset').click(() =>{
-        var reset = $('.reset');
-        console.log(reset);
-        var clinic_id = reset.id.split('_')[2];
+        console.log(this);
+        var clinic_id = this.id.split('_')[2];
         console.log(clinic_id);
         $.ajax({
             type: 'POST',
