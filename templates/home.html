@@ -104,13 +104,11 @@
         }
     });
 
-    $('.reset').click(() =>{
-        console.log(this);
-        var clinic_id = this.id.split('_')[2];
-        console.log(clinic_id);
+    $('#reset_btn_1').click((this) =>{
+      console.log(this)
         $.ajax({
             type: 'POST',
-            url: '/reset/' + clinic_id,
+            url: '/reset/' + this[0].id.split('_')[2],
             success: (res) => {
                 console.log(res.response)
                 location.reload();
