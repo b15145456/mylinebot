@@ -74,16 +74,14 @@ def resetNum():
 def reset():
     print('---------------request.data------------------------------------------')
     print(request.data)
-    print(request.data['clinic_id'])
-    print(request.data.clinic_id)
     byte_str = request.data
-    json_str = byte_str.decode('utf-8') # Decode using the utf-8 encoding
-    print(json_str)
-    data_dic = json.loads(json_str)
-    print(data_dic['clinic_id'])
+    new_str = byte_str.decode('utf-8') # Decode using the utf-8 encoding
+    print(new_str)
+    a = json.loads(new_str)
+    print(a['clinic_id'])
     if request.method == 'POST':
         try:
-            callDatabase.updateClinicNum(clinic_id, 0)
+            callDatabase.updateClinicNum(a['clinic_id'], 0)
             result = {'success': True, 'response': 'reset clinic number'}
         except:
             result = {'success': False, 'response': 'Something went wrong'}
