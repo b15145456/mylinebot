@@ -74,7 +74,7 @@ def resetNum():
 def reset():
     print('---------------request.data------------------------------------------')
     print(request.data)
-    callDatabase.updateClinicNum(request.data, 0)
+    callDatabase.updateClinicNum(request.data.clinic_id, 0)
     return render_template('home.html', clinic_info_1 = request.data.clinic_id)
     
 
