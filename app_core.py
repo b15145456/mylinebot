@@ -74,6 +74,8 @@ def resetNum():
 def reset():
     print('---------------request.data------------------------------------------')
     print(request.data)
+    print(request.data['clinic_id'])
+    print(request.data.clinic_id)
     byte_str = request.data
     json_str = byte_str.decode('utf-8') # Decode using the utf-8 encoding
     print(json_str)
