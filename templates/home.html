@@ -28,7 +28,7 @@
   <div class="col">
     <h1>
       診間 1 現在看到 <b>
-        <h id="now_num">{{ clinic_info_1[0] }} </h>
+        <h id="now_num_1" data-clinic="1">{{ clinic_info_1[0] }} </h>
       </b>號
     </h1>
     <form name="form" id="form" method="POST">
@@ -60,7 +60,7 @@
   <div class="col">
     <h1>
       診間 2 現在看到 <b>
-        <h id="now_num">{{ clinic_info_2[0] }} </h>
+        <h id="now_num_2">{{ clinic_info_2[0] }} </h>
       </b>號
     </h1>
     <div class="form-row">
@@ -130,12 +130,12 @@
           'Content-Type': 'application/json;charset=UTF-8',
         },
         dataType: 'json',
-        success: function (callback) {
+        success: ()=> {
           console.log(callback);
           // Watch out for Cross Site Scripting security issues when setting dynamic content!
-          $('#now_num').text() = '0';
+          $("#now_num_1").text("0");
         },
-        error: function () {
+        error: ()=> {
           alert('something wrong!!!')
           $(this).html("error!");
         }
