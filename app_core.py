@@ -50,21 +50,18 @@ def submit():
     botTalk.checkNum(1)
     return redirect("/")
 
-@app.route("/submit2", methods=['GET','POST'])
+@app.route("/submit2", methods=['POST'])
 def submit2():
     request_json = json.loads(request.data.decode('utf-8')) # Decode using the utf-8 encoding
     clinic_id = request_json['clinic_id']
     change_num = request_json['clinic_1_now_num']
-    if request.method == 'POST':
-        try:
-            callDatabase.updateClinicNum(clinic_id, change_num)
-            callDatabase.deleteIdUseNum(change_num)
-            result = {'success': True, 'response': 'reset clinic number'}
-        except:
-            result = {'success': False, 'response': 'Something went wrong'}
-        return jsonify(result)
-    else:
-        return render_template('home.html')
+    try:
+        callDatabase.updateClinicNum(clinic_id, change_num)
+        callDatabase.deleteIdUseNum(change_num)
+        result = {'success': True, 'response': 'reset clinic number'}
+    except:
+        result = {'success': False, 'response': 'Something went wrong'}
+    return jsonify(result)
 
 # test page
 @app.route("/test")
