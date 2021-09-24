@@ -143,7 +143,7 @@
           // Watch out for Cross Site Scripting security issues when setting dynamic content!
           $("#now_num_1").text(change_num);
           $('#edit_now_num').val("");
-          $("div[id=change_num][clinic_index='1']").remove();
+          $("div[id="+change_num+"][clinic_index='1']").remove();
         },
         error: ()=> {
           alert('something wrong!!!')
