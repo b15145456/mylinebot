@@ -50,7 +50,7 @@ def submit():
     botTalk.checkNum(1)
     return redirect("/")
 
-@app.route("/submit2", methods=['POST'])
+@app.route("/submit2", methods=['GET','POST'])
 def submit2():
     request_json = json.loads(request.data.decode('utf-8')) # Decode using the utf-8 encoding
     clinic_id = request_json['clinic_id']
