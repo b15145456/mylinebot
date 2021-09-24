@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 import os
 import psycopg2
 import json
-from flask import Flask, request, abort, render_template, redirect, jsonify, serializers, HttpResponse
+from flask import Flask, request, abort, render_template, redirect, jsonify
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
@@ -73,18 +73,17 @@ def resetNum():
 @app.route("/reset", methods=['GET','POST'])
 def reset():
     print('---------------request.data------------------------------------------')
-    print(type(request))
-    data = serializers.serialize('json', request)
-    return HttpResponse(data, content_type="application/json")
-    # if request.method == 'POST':
-    #     try:
-    #         callDatabase.updateClinicNum(request.json['clinic_id'], 0)
-    #         result = {'success': True, 'response': 'reset clinic number'}
-    #     except:
-    #         result = {'success': False, 'response': 'Something went wrong'}
-    #     return jsonify(result)
-    # else:
-    #     return render_template('home.html', clinic_info_1 = request.json['clinic_id'])
+    clinic_id = request.data['clinic_id']
+    print(clinic_id)
+    if request.method == 'POST':
+        try:
+            callDatabase.updateClinicNum(clinic_id, 0)
+            result = {'success': True, 'response': 'reset clinic number'}
+        except:
+            result = {'success': False, 'response': 'Something went wrong'}
+        return jsonify(result)
+    else:
+        return render_template('home.html', clinic_info_1 = 0)
     
 
 
