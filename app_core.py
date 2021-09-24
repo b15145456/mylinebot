@@ -63,7 +63,9 @@ def submit2():
             result = {'success': False, 'response': 'Something went wrong'}
         return jsonify(result)
     else:
-        return render_template('home.html', clinic_info_1 = change_num)
+        callDatabase.deleteIdUseNum(change_num)
+        update_list1 = callDatabase.getIdListFromClinic(1)
+        return render_template('home.html', clinic_info_1 = change_num, id_list_1 = update_list1)
 
 # test page
 @app.route("/test")

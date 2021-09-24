@@ -128,6 +128,7 @@
         success: ()=> {
           // Watch out for Cross Site Scripting security issues when setting dynamic content!
           $("#now_num_1").text(change_num);
+          $('#edit_now_num').val("")
         },
         error: ()=> {
           alert('something wrong!!!')
