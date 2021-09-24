@@ -73,7 +73,7 @@ def resetNum():
 @app.route("/reset", methods=['GET','POST'])
 def reset():
     print('---------------request.data------------------------------------------')
-    print(json.dumps(x))
+    print(json.dumps(request))
     if request.method == 'POST':
         try:
             callDatabase.updateClinicNum(request.data, 0)
