@@ -70,7 +70,7 @@ def resetNum():
 
 #test Ajax zzzz
 @app.route("/reset", methods=['GET','POST'])
-def reset(clinic_id):
+def reset():
     print('---------------request.data------------------------------------------')
     print(request.get_json())
     if request.method == 'POST':
