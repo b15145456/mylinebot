@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 import os
 import psycopg2
+import json
 from flask import Flask, request, abort, render_template, redirect, jsonify
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
@@ -72,7 +73,7 @@ def resetNum():
 @app.route("/reset", methods=['GET','POST'])
 def reset():
     print('---------------request.data------------------------------------------')
-    print(request)
+    print(json.dumps(x))
     if request.method == 'POST':
         try:
             callDatabase.updateClinicNum(request.data, 0)
@@ -81,7 +82,7 @@ def reset():
             result = {'success': False, 'response': 'Something went wrong'}
         return jsonify(result)
     else:
-        return render_template('home.html')
+        return render_template('home.html', clinic_info_1 = request.data.clinic_id)
     
 
 
