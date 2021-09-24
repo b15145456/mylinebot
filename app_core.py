@@ -73,7 +73,8 @@ def resetNum():
 @app.route("/reset", methods=['GET','POST'])
 def reset():
     print('---------------request.data------------------------------------------')
-    clinic_id = request.data['clinic_id']
+    a = json.loads(request)
+    clinic_id = a.data['clinic_id']
     print(clinic_id)
     if request.method == 'POST':
         try:
