@@ -55,17 +55,10 @@ def submit2():
     request_json = json.loads(request.data.decode('utf-8')) # Decode using the utf-8 encoding
     clinic_id = request_json['clinic_id']
     change_num = request_json['clinic_1_now_num']
-    if request.method == 'POST':
-        try:
-            callDatabase.updateClinicNum(clinic_id, change_num)
-            result = {'success': True, 'response': 'reset clinic number'}
-        except:
-            result = {'success': False, 'response': 'Something went wrong'}
-        return jsonify(result)
-    else:
-        callDatabase.deleteIdUseNum(change_num)
-        update_list1 = callDatabase.getIdListFromClinic(1)
-        return render_template('home.html', clinic_info_1 = change_num, id_list_1 = update_list1)
+    callDatabase.updateClinicNum(clinic_id, change_num)
+    callDatabase.deleteIdUseNum(change_num)
+    update_list1 = callDatabase.getIdListFromClinic(1)
+    return render_template('home.html', clinic_info_1 = change_num, id_list_1 = update_list1)
 
 # test page
 @app.route("/test")
