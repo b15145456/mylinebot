@@ -50,6 +50,21 @@ def submit():
     botTalk.checkNum(1)
     return redirect("/")
 
+@app.route("/submit2", methods=['POST'])
+def submit2():
+    request_json = json.loads(request.data.decode('utf-8')) # Decode using the utf-8 encoding
+    clinic_id = request_json['clinic_id']
+    change_num = request_json['clinic_1_now_num']
+    if request.method == 'POST':
+        try:
+            callDatabase.updateClinicNum(clinic_id, change_num)
+            result = {'success': True, 'response': 'reset clinic number'}
+        except:
+            result = {'success': False, 'response': 'Something went wrong'}
+        return jsonify(result)
+    else:
+        return render_template('home.html', clinic_info_1 = change_num)
+
 # test page
 @app.route("/test")
 def test():
@@ -72,23 +87,15 @@ def resetNum():
 #test Ajax zzzz
 @app.route("/reset", methods=['GET','POST'])
 def reset():
-    print('---------------request.data------------------------------------------')
-    print(request.data)
-    byte_str = request.data
-    new_str = byte_str.decode('utf-8') # Decode using the utf-8 encoding
-    print(new_str)
-    a = json.loads(new_str)
-    print(a['clinic_id'])
+    request_json = json.loads(request.data.decode('utf-8')) # Decode using the utf-8 encoding
     if request.method == 'POST':
-        print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
         try:
-            callDatabase.updateClinicNum(a['clinic_id'], 0)
+            callDatabase.updateClinicNum(request_json['clinic_id'], 0)
             result = {'success': True, 'response': 'reset clinic number'}
         except:
             result = {'success': False, 'response': 'Something went wrong'}
         return jsonify(result)
     else:
-        print("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
         return render_template('home.html', clinic_info_1 = 0)
     
 

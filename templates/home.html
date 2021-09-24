@@ -30,10 +30,10 @@
         <h id="now_num_1" clinic-index="1">{{ clinic_info_1[0] }} </h>
       </b>號
     </h1>
-    <input id="edit_now_num" type="text" class="m-2 col-md-4" name="change_num" placeholder="可自訂看診號">
-    <button type="submit" class="btn btn-primary m-2">Submit</button>
-    <button id="btn_plus_1" onclick="plusOne()" class="btn btn-primary m-2 col-sm-1">+1</button>
-    <button id="btn_reset_1" class="btn btn-danger m-2 col-sm-1">重置</button>
+    <input id="edit_now_num" clinic-index="1" type="text" class="m-2 col-md-4" name="change_num" placeholder="可自訂看診號">
+    <button id="btn_submit_1" clinic-index="1" type="submit" class="btn btn-primary m-2">Submit</button>
+    <button id="btn_plus_1" clinic-index="1" class="btn btn-primary m-2 col-sm-1">+1</button>
+    <button id="btn_reset_1" clinic-index="1" class="btn btn-danger m-2 col-sm-1">重置</button>
     <!-- 用巨集快速創造欄位名稱 -->
     {{ easy_row(col_names, "h2") }}
 
@@ -104,6 +104,30 @@
         success: ()=> {
           // Watch out for Cross Site Scripting security issues when setting dynamic content!
           $("#now_num_1").text("0");
+        },
+        error: ()=> {
+          alert('something wrong!!!')
+          $(this).html("error!");
+        }
+      });
+    });
+
+    $('#btn_submit_1').click(() => {
+      var change_num = $('#edit_now_num').val()
+      $.ajax({
+        type: 'POST',
+        url: '/submit2',
+        data: JSON.stringify({
+          "clinic_id": $('#btn_submit_1').attr('clinic-index'),
+          "clinic_1_now_num": change_num
+        }),
+        headers: {
+          'Content-Type': 'application/json;charset=UTF-8',
+        },
+        dataType: 'json',
+        success: ()=> {
+          // Watch out for Cross Site Scripting security issues when setting dynamic content!
+          $("#now_num_1").text(change_num);
         },
         error: ()=> {
           alert('something wrong!!!')
