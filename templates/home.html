@@ -24,25 +24,17 @@
 
 <!-- 修改號碼 -->
 <div class="row">
-  <!-- clinic 1 -->
-  <div class="col">
+  <div class="col-6">
     <h1>
       診間 1 現在看到 <b>
-        <h id="now_num_1" data-clinic="1">{{ clinic_info_1[0] }} </h>
+        <h id="now_num_1" clinic-index="1">{{ clinic_info_1[0] }} </h>
       </b>號
     </h1>
-    <form name="form" id="form" method="POST">
-      <!-- <form name="form" id="form" method="POST" action="{{url_for('submit')}}"> -->
-      <div class="form-row">
-        <div class="col-auto">
-          <input id="edit_now_num" type="text" class="form-control mb-2" name="change_num" placeholder="可自訂看診號">
-        </div>
-        <div class="col-auto">
-          <button id="submit_btn" onclick="return false" type="submit" class="btn btn-primary mb-2">送出</button>
-        </div>
-    </form>
-    <button id="plus_btn" onclick="plusOne()" class="btn btn-primary mb-2">+1</button>
-    <button id="reset_btn_1" class="btn btn-danger mb-2">重置</button>
+    <input id="edit_now_num" type="text" class="m-2 col-md-4" name="change_num" placeholder="可自訂看診號">
+    <button type="submit" class="btn btn-primary m-2">Submit</button>
+    <button id="btn_plus_1" onclick="plusOne()" class="btn btn-primary m-2 col-sm-1">+1
+    <button id="btn_reset_1" class="btn btn-danger m-2 col-sm-1">重置
+  </div>
     <!-- 用巨集快速創造欄位名稱 -->
     {{ easy_row(col_names, "h2") }}
 
@@ -50,7 +42,7 @@
     {{ easy_row(id_list_1, "p") }}
   </div>
   <!-------------------------------- clinic 2 ---------------------------------------->
-  <div class="col">
+  <div class="col-6">
     <h1>
       診間 2 現在看到 <b>
         <h id="now_num_2">{{ clinic_info_2[0] }} </h>
@@ -100,12 +92,12 @@
 
       }
     });
-
-    $('#reset_btn_1').click(() => {
+    
+    $('#btn_reset_1').click(() => {
       $.ajax({
         type: 'POST',
         url: '/reset',
-        data: JSON.stringify({"clinic_id": 1}),
+        data: JSON.stringify({"clinic_id": $('#now_num_1').attr('clinic-index') }),
         headers: {
           'Content-Type': 'application/json;charset=UTF-8',
         },
@@ -121,13 +113,5 @@
       });
     });
   });
-  // function resetNum() {
-  //   document.getElementById("edit_now_num").value = "0";
-  //   document.form.submit();
-  // }
-  // function plusOne() {
-  //   document.getElementById("edit_now_num").value = (parseInt(document.getElementById("now_num").textContent) + 1).toString();
-  //   document.form.submit();
-  // }
 </script>
 {% endblock %}
