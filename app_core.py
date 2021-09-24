@@ -80,6 +80,7 @@ def reset():
     a = json.loads(new_str)
     print(a['clinic_id'])
     if request.method == 'POST':
+        print("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa")
         try:
             callDatabase.updateClinicNum(a['clinic_id'], 0)
             result = {'success': True, 'response': 'reset clinic number'}
@@ -87,6 +88,7 @@ def reset():
             result = {'success': False, 'response': 'Something went wrong'}
         return jsonify(result)
     else:
+        print("bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
         return render_template('home.html', clinic_info_1 = 0)
     
 

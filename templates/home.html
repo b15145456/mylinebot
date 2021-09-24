@@ -49,7 +49,6 @@
         </div>
       </div>
     </form>
-    <button id="reset_btn_2" class="btn btn-danger mb-2">重置2</button>
     <!-- 用巨集快速創造欄位名稱 -->
     {{ easy_row(col_names, "h2") }}
 
@@ -108,20 +107,7 @@
       }
     });
 
-    // $('#reset_btn_1').click(() => {
-    //   $.ajax({
-    //     type: 'POST',
-    //     url: '/reset/' + document.getElementById("reset_btn_1").id.split('_')[2],
-    //     success: (res) => {
-    //       console.log(res.response)
-    //       location.reload();
-    //     },
-    //     error: () => {
-    //       console.log('Error');
-    //     }
-    //   });
-    // });
-    $('#reset_btn_2').click(() => {
+    $('#reset_btn_1').click(() => {
       $.ajax({
         type: 'POST',
         url: '/reset',
@@ -141,13 +127,6 @@
       });
     });
   });
-  // function resetNum() {
-  //   document.getElementById("edit_now_num").value = "0";
-  //   document.form.submit();
-  // }
-  // function plusOne() {
-  //   document.getElementById("edit_now_num").value = (parseInt(document.getElementById("now_num").textContent) + 1).toString();
-  //   document.form.submit();
-  // }
+  
 </script>
 {% endblock %}
