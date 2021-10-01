@@ -38,7 +38,7 @@
 
 <!-- 修改號碼 -->
 <div class="row">
-  <div class="col-6">
+  <div class="col-6" id="clinic_col1">
     <h1>
       診間 1 現在看到 <b>
         <h id="now_num_1" clinic-index="1">{{ clinic_info_1[0] }} </h>
@@ -92,6 +92,17 @@
 <script>
   $(document).ready(function () {
 
+    var socket = io.connect();
+    socket.on('add_clinic_1', (msg) => {
+      $('#clinic_col1').append('<div class="row" id='+msg.data+' clinic-index='+msg.data+'><div class="col-6"><p>{{ item }}</p></div></div>');
+    });
+
+    socket.on('add_clinic_2', (msg) => {
+      $('#status').append('<p>status: ' + msg.data + "Time:" + date + '</p>');
+    });
+
+
+
     $("#submit_btn").click(function () {
       input_data = $("#edit_now_num").val()
       if (input_data == "") {
@@ -105,21 +116,21 @@
 
       }
     });
-    
+
     $('#btn_reset_1').click(() => {
       $.ajax({
         type: 'POST',
         url: '/reset',
-        data: JSON.stringify({"clinic_id": $('#now_num_1').attr('clinic-index') }),
+        data: JSON.stringify({ "clinic_id": $('#now_num_1').attr('clinic-index') }),
         headers: {
           'Content-Type': 'application/json;charset=UTF-8',
         },
         dataType: 'json',
-        success: ()=> {
+        success: () => {
           // Watch out for Cross Site Scripting security issues when setting dynamic content!
           $("#now_num_1").text("0");
         },
-        error: ()=> {
+        error: () => {
           alert('something wrong!!!')
           $(this).html("error!");
         }
@@ -139,14 +150,14 @@
           'Content-Type': 'application/json;charset=UTF-8',
         },
         dataType: 'json',
-        success: ()=> {
+        success: () => {
           // Watch out for Cross Site Scripting security issues when setting dynamic content!
           $("#now_num_1").text(change_num);
           $('#edit_now_num').val("");
-          console.log($('[id="'+change_num+'"][clinic_index="1"]'));
-          $('[id="'+change_num+'"][clinic-index="1"]').remove();
+          console.log($('[id="' + change_num + '"][clinic_index="1"]'));
+          $('[id="' + change_num + '"][clinic-index="1"]').remove();
         },
-        error: ()=> {
+        error: () => {
           alert('something wrong!!!')
           $(this).html("error!");
         }

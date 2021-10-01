@@ -7,8 +7,7 @@ from flask import Flask, request, abort, render_template, redirect, jsonify
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
-
-
+from flask_socketio import SocketIO, emit
 # try pull request！
 
 import configparser
@@ -16,6 +15,7 @@ import configparser
 from models import botTalk, callDatabase
 
 app = Flask(__name__)
+socketio = SocketIO(app)
 
 # LINE 聊天機器人的基本資料
 config = configparser.ConfigParser()
@@ -23,6 +23,10 @@ config.read('config.ini')
 
 handler = WebhookHandler(config.get('line-bot', 'channel_secret'))
 
+@socketio.on('connect_event')
+def connected_msg(msg):
+    emit('server_response', {'data': msg['data']})
+    
 # 首頁
 @app.route("/")
 def home():
@@ -145,3 +149,5 @@ def reply_text_message(event):
 
 if __name__ == "__main__":
     app.run()
+    socketio.run(app, cors_allowed_origins="*")
+    
